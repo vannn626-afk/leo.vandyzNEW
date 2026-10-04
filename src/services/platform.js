@@ -4,7 +4,15 @@ export async function getMyProfile(){const s=getSession(); if(!s?.access_token)r
 export async function touchPresence(){try{await rpc('touch_presence',{},getSession()?.access_token)}catch{}}
 export async function consumeTool(toolId,cost=10){
   const token=getSession()?.access_token; if(!token)throw new Error('Session expired.');
-  try{return await rpc('consume_tool',{p_tool_id:toolId,p_cost:cost},token)}catch(e){try{return await rpc('consume_tool_v2',{p_tool_id:toolId,p_cost:cost},token)}catch{throw new Error('Credits tidak cukup atau tool tidak dapat digunakan.')}}
+  // VIP/ADMIN enforcement must happen in the canonical server-side RPC.
+  // Do not fall back to an older consume_tool implementation that may not know vip_until.
+  try{return await rpc('consume_tool_v2',{p_tool_id:toolId,p_cost:cost},token)}catch(e){
+    const m=String(e?.message||'');
+    if(m.includes('INSUFFICIENT_CREDITS'))throw new Error('Credits tidak cukup.');
+    if(m.includes('ACCOUNT_DISABLED'))throw new Error('Akun dinonaktifkan.');
+    if(m.includes('SESSION_EXPIRED'))throw new Error('Session expired. Login kembali.');
+    throw new Error(m||'Tool tidak dapat digunakan.');
+  }
 }
 export async function getPublicStats(){try{return await rpc('public_stats',{},getSession()?.access_token)}catch{return null}}
 export async function getAdminStats(){try{return await rpc('admin_stats',{},getSession()?.access_token)}catch{return null}}
