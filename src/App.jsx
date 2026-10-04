@@ -12,15 +12,23 @@ export default function App(){const [page,setPage]=React.useState('home'),[tools
   let cancelled=false;
   const withTimeout=(promise,ms)=>Promise.race([promise,new Promise((_,reject)=>setTimeout(()=>reject(new Error('timeout')),ms))]);
   (async()=>{
-    try{await withTimeout(restoreSession(),2500)}catch{}
+    let restored=null;
+    try{restored=await withTimeout(restoreSession(),5000)}catch{}
     try{
-      if(getSession()){
-        const p=await withTimeout(refreshProfile(),3500);
-        // A session without its exact matching profile is invalid for this app.
-        // Clear it instead of rendering another user's profile by accident.
-        if(!p)await signOut();
+      if(restored?.access_token||getSession()?.access_token){
+        try{
+          const p=await withTimeout(refreshProfile(),5000);
+          // Only clear a session when the token is valid enough to query the
+          // profile and no matching profile exists. Network/timeouts must not
+          // destroy a persistent login.
+          if(p===null && getSession()?.access_token)await signOut();
+        }catch(e){
+          // Keep the stored session on transient network/API errors. The next
+          // app load can retry refresh/profile restoration.
+          console.warn('KING VANDYZ session restore:',e);
+        }
       }
-    }catch{try{await signOut()}catch{}}
+    }catch(e){console.warn('KING VANDYZ auth boot:',e)}
     if(cancelled)return;
     const results=await Promise.allSettled([
       getCatalog(),
