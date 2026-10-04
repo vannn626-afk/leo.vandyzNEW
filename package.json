@@ -1,12 +1,13 @@
 {
   "name": "king-vandyz",
   "private": true,
-  "version": "5.0.0",
+  "version": "11.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prebuild": "node scripts/sync-zyvor.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
