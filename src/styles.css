@@ -1377,3 +1377,23 @@ html[data-theme="brutal"] .glass-panel,html[data-theme="brutal"] .price-card{bac
 /* V11 dynamic OpenAPI boolean controls */
 .checkbox-field > span{display:flex;align-items:center;gap:9px;cursor:pointer}
 .checkbox-field input[type="checkbox"]{width:18px;height:18px;accent-color:var(--theme-primary,var(--cyan));margin:0}
+
+
+/* V13 CATEGORY + GAME UI */
+.game-ui-shell{width:100%;border:2px solid var(--theme-primary);background:var(--theme-surface);box-shadow:7px 7px 0 var(--theme-shadow);overflow:hidden}
+.game-ui-header{padding:18px 20px;display:grid;gap:5px;background:linear-gradient(135deg,color-mix(in srgb,var(--theme-primary) 14%,var(--theme-surface)),var(--theme-surface));border-bottom:2px solid var(--theme-border)}
+.game-ui-header span{font:800 9px/1.2 "Courier New",monospace;letter-spacing:2px;color:var(--theme-accent)}
+.game-ui-header b{font-size:24px;color:var(--theme-text)}.game-ui-header small{color:var(--theme-muted)}
+.game-ui-screen{padding:20px;display:grid;gap:16px;background:radial-gradient(circle at 50% 0,color-mix(in srgb,var(--theme-secondary) 12%,transparent),transparent 50%)}
+.game-ui-prompt{text-align:center;font:900 12px/1 "Courier New",monospace;letter-spacing:3px;color:var(--theme-primary);text-shadow:0 0 10px color-mix(in srgb,var(--theme-primary) 45%,transparent)}
+.game-ui-choice{display:grid;gap:8px}.game-ui-choice label,.game-ui-input span{font-size:10px;font-weight:800;color:var(--theme-muted);text-transform:uppercase;letter-spacing:1px}.game-ui-choice>div{display:flex;flex-wrap:wrap;gap:8px}
+.game-choice{padding:10px 12px;border:2px solid var(--theme-border);background:var(--theme-bg);color:var(--theme-text);cursor:pointer;font-weight:800}.game-choice.active{background:var(--theme-primary);color:var(--theme-bg);border-color:var(--theme-primary);box-shadow:3px 3px 0 var(--theme-shadow)}
+.game-ui-input{display:grid;gap:7px}.game-ui-input input{width:100%;box-sizing:border-box}.game-ui-toggle{display:flex;align-items:center;gap:9px;color:var(--theme-text);font-weight:700}.game-start-btn{min-height:52px;border:2px solid var(--theme-primary);background:var(--theme-accent);color:var(--theme-surface);font-weight:900;letter-spacing:1.5px;cursor:pointer;box-shadow:5px 5px 0 var(--theme-shadow)}.game-start-btn:disabled{opacity:.55;cursor:not-allowed}
+html[data-theme="paper"] .game-ui-shell{background:var(--theme-surface)!important;box-shadow:5px 5px 0 color-mix(in srgb,var(--theme-shadow) 25%,transparent)!important;border-radius:5px}
+html[data-theme="paper"] .game-ui-screen{background:var(--theme-surface)!important}
+html[data-theme="paper"] .game-ui-header{background:var(--theme-surface2)!important}
+html[data-theme="paper"] .game-ui-input input,html[data-theme="paper"] .game-choice{background:var(--theme-surface)!important;color:var(--theme-text)!important}
+/* Remove legacy dark surfaces that leaked into Paper. */
+html[data-theme="paper"] .topbar *,html[data-theme="paper"] .desktop-nav *,html[data-theme="paper"] .bottom-nav *,html[data-theme="paper"] .mobile-header *,html[data-theme="paper"] .mobile-drawer *{color:inherit}
+html[data-theme="paper"] .topbar,html[data-theme="paper"] .desktop-nav,html[data-theme="paper"] .bottom-nav,html[data-theme="paper"] .mobile-header,html[data-theme="paper"] .mobile-drawer{background:var(--theme-surface)!important;color:var(--theme-text)!important}
+html[data-theme="paper"] .tool-card,html[data-theme="paper"] .category-card,html[data-theme="paper"] .status-card,html[data-theme="paper"] .global-search{background:var(--theme-surface)!important;color:var(--theme-text)!important}
