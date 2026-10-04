@@ -44,7 +44,9 @@ React.useEffect(()=>{
   glass:{bg:'#07080d',surface:'#0d1018',surface2:'#121722',text:'#f6f7fb',muted:'#8d96aa',border:'#2a3040',primary:'#66e6ff',secondary:'#c58cff',accent:'#ff2bd6',highlight:'#66e6ff',shadow:'#000000'},
   brutal:{bg:'#FFFDF5',surface:'#FFFFFF',surface2:'#FFFFFF',text:'#090909',muted:'#4a4640',border:'#090909',primary:'#4D7CFF',secondary:'#A77BFF',accent:'#FF4D5A',highlight:'#FFD23F',shadow:'#090909'},
   city:{bg:'#08111b',surface:'#0d1925',surface2:'#122333',text:'#eff7ff',muted:'#8ba0b6',border:'#2a4257',primary:'#7bd9ff',secondary:'#78a8ff',accent:'#36e1c1',highlight:'#ffcc66',shadow:'#02060b'},
-  comic:{bg:'#fff6dc',surface:'#FFFFFF',surface2:'#FFFFFF',text:'#17120d',muted:'#6e5e4c',border:'#17120d',primary:'#1769ff',secondary:'#ff3d8d',accent:'#ffe05c',highlight:'#58d68d',shadow:'#17120d'}
+  comic:{bg:'#fff6dc',surface:'#FFFFFF',surface2:'#FFFFFF',text:'#17120d',muted:'#6e5e4c',border:'#17120d',primary:'#1769ff',secondary:'#ff3d8d',accent:'#ffe05c',highlight:'#58d68d',shadow:'#17120d'},
+  paper:{bg:'#f5edda',surface:'#fffdf4',surface2:'#f1e7cc',text:'#30261d',muted:'#776957',border:'#4a3828',primary:'#6b4f35',secondary:'#9a7652',accent:'#c65d3a',highlight:'#e6c85c',shadow:'#4a3828'},
+  arcade:{bg:'#09051a',surface:'#130b2d',surface2:'#1d1040',text:'#f8f4ff',muted:'#b8a9d9',border:'#6e4cff',primary:'#00e5ff',secondary:'#a66cff',accent:'#ff3cac',highlight:'#ffe45e',shadow:'#05020d'}
  };
  const applyTheme=()=>{
   let saved=null;try{saved=localStorage.getItem('king-vandyz-theme-v2')}catch{}
