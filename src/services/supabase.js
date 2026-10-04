@@ -2,11 +2,13 @@ const URL = import.meta.env.VITE_SUPABASE_URL || '';
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 const STORAGE = 'king-vandyz-supabase-session-v2';
 const LEGACY_STORAGE = 'king-vandyz-supabase-session-v1';
-// Keep the auth session per browser tab. Using one localStorage session across tabs
-// lets a customer login overwrite an admin session on the same origin.
-const storageGet=(key)=>{try{return sessionStorage.getItem(key)}catch{return null}};
-const storageSet=(key,value)=>{try{if(value===null)sessionStorage.removeItem(key);else sessionStorage.setItem(key,value)}catch{}};
-const storageMigrate=()=>{try{const current=sessionStorage.getItem(STORAGE);if(current)return current;const legacy=localStorage.getItem(LEGACY_STORAGE);if(legacy){sessionStorage.setItem(STORAGE,legacy);localStorage.removeItem(LEGACY_STORAGE);return legacy}}catch{}return null};
+// Persist auth across reloads/browser restarts.
+// The V15.1 tab-only session caused users to be logged out after closing/reopening
+// the browser. Keep the auth session in localStorage and migrate any legacy tab
+// session once, without touching favorites/history/theme storage.
+const storageGet=(key)=>{try{return localStorage.getItem(key)}catch{return null}};
+const storageSet=(key,value)=>{try{if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value)}catch{}};
+const storageMigrate=()=>{try{const current=localStorage.getItem(STORAGE);if(current)return current;const tab=sessionStorage.getItem(STORAGE);if(tab){localStorage.setItem(STORAGE,tab);sessionStorage.removeItem(STORAGE);return tab}const legacy=localStorage.getItem(LEGACY_STORAGE);if(legacy){localStorage.setItem(STORAGE,legacy);localStorage.removeItem(LEGACY_STORAGE);return legacy}}catch{}return null};
 const AUTH_COOLDOWN = 'king-vandyz-auth-cooldown-until';
 function authCooldownRemaining(){try{return Math.max(0,Number(localStorage.getItem(AUTH_COOLDOWN)||0)-Date.now())}catch{return 0}}
 function markAuthRateLimit(){try{localStorage.setItem(AUTH_COOLDOWN,String(Date.now()+20000))}catch{}}
