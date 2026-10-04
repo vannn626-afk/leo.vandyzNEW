@@ -45,3 +45,10 @@ Build with `npm run build`.
 - Category navigation opens the selected category.
 - Adds game-style launcher UI for game categories.
 - Keeps six themes and strengthens Paper theme surface cleanup.
+
+## ADMIN + REAL VIP SESSION FIX
+- Admin `kielvan` is restored/kept as ADMIN by the supplied safe SQL patch.
+- Auth sessions now use per-tab `sessionStorage` instead of a shared `localStorage` session, preventing a customer login in another tab from replacing the admin session.
+- Tool consumption now uses the canonical `consume_tool_v2` RPC only, so VIP access is enforced server-side from `vip_until` and ADMIN remains unlimited.
+- `complete_order()` remains admin-only and grants purchased credits/VIP server-side.
+- Apply `supabase/ADMIN-VIP-SESSION-FIX.sql` once in Supabase SQL Editor. Do NOT rerun `supabase/migration.sql`.
