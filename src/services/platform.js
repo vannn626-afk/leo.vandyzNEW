@@ -17,7 +17,12 @@ export async function consumeTool(toolId,cost=10){
 export async function getPublicStats(){try{return await rpc('public_stats',{},getSession()?.access_token)}catch{return null}}
 export async function getAdminStats(){try{return await rpc('admin_stats',{},getSession()?.access_token)}catch{return null}}
 export async function listRows(table,query='?select=*'){return db(table,{token:getSession()?.access_token,query})}
-export async function mutate(table,method,body,query=''){return db(table,{token:getSession()?.access_token,method,body,query,prefer:'return=representation'})}
+export async function mutate(table,method,body,query='',prefer='return=representation'){return db(table,{token:getSession()?.access_token,method,body,query,prefer})}
+export async function upsertToolConfigs(rows=[]){
+  const payload=Array.isArray(rows)?rows.filter(Boolean):[];
+  if(!payload.length)return [];
+  return db('tool_configs',{token:getSession()?.access_token,method:'POST',body:payload,prefer:'resolution=merge-duplicates,return=representation'});
+}
 export async function adminRpc(name,args){return rpc(name,args,getSession()?.access_token)}
 export async function rejectOrder(orderId){return adminRpc('reject_order',{p_order_id:orderId})}
 export async function setUserDisabled(userId,disabled){return adminRpc('set_user_disabled',{p_user_id:userId,p_disabled:Boolean(disabled)})}
