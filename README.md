@@ -59,3 +59,10 @@ Build with `npm run build`.
 - Sync preserves existing per-tool settings and adds the full current catalog.
 - Added global **Drawing Studio** theme with reload-safe theme bootstrap and full-app styling.
 - Optional Supabase patch: `supabase/V15.1-TOOL-CMS-DRAWING-PATCH.sql`.
+
+
+## V15.3 FIXES
+- Auth session persisted in localStorage and migrates V15.1 tab sessions.
+- Admin Tools independently loads the live catalog and keeps hidden DB tool configs visible to Admin.
+- HIDE/SHOW and per-tool Maintenance are saved to `public.tool_configs`.
+- Drawing theme remains available from client defaults even when theme_config is empty.
