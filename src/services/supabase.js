@@ -1,6 +1,12 @@
 const URL = import.meta.env.VITE_SUPABASE_URL || '';
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
-const STORAGE = 'king-vandyz-supabase-session-v1';
+const STORAGE = 'king-vandyz-supabase-session-v2';
+const LEGACY_STORAGE = 'king-vandyz-supabase-session-v1';
+// Keep the auth session per browser tab. Using one localStorage session across tabs
+// lets a customer login overwrite an admin session on the same origin.
+const storageGet=(key)=>{try{return sessionStorage.getItem(key)}catch{return null}};
+const storageSet=(key,value)=>{try{if(value===null)sessionStorage.removeItem(key);else sessionStorage.setItem(key,value)}catch{}};
+const storageMigrate=()=>{try{const current=sessionStorage.getItem(STORAGE);if(current)return current;const legacy=localStorage.getItem(LEGACY_STORAGE);if(legacy){sessionStorage.setItem(STORAGE,legacy);localStorage.removeItem(LEGACY_STORAGE);return legacy}}catch{}return null};
 const AUTH_COOLDOWN = 'king-vandyz-auth-cooldown-until';
 function authCooldownRemaining(){try{return Math.max(0,Number(localStorage.getItem(AUTH_COOLDOWN)||0)-Date.now())}catch{return 0}}
 function markAuthRateLimit(){try{localStorage.setItem(AUTH_COOLDOWN,String(Date.now()+20000))}catch{}}
@@ -14,8 +20,8 @@ const restBase = () => `${URL.replace(/\/$/, '')}/rest/v1`;
 function headers(token) {
   return { apikey: KEY, Authorization: `Bearer ${token || KEY}`, 'Content-Type': 'application/json', Accept: 'application/json' };
 }
-function readSession(){try{return JSON.parse(localStorage.getItem(STORAGE)||'null')}catch{return null}}
-function saveSession(s){try{if(s)localStorage.setItem(STORAGE,JSON.stringify(s));else localStorage.removeItem(STORAGE)}catch{}}
+function readSession(){try{return JSON.parse(storageMigrate()||'null')}catch{return null}}
+function saveSession(s){storageSet(STORAGE,s?JSON.stringify(s):null)}
 
 async function request(url, options={}) {
   const r = await fetch(url, options);
