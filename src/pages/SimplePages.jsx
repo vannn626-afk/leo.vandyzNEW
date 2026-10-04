@@ -10,7 +10,7 @@ export function SettingsPage({profile,setProfile}){
  return <div className="settings-page page">
   <div className="page-title"><div><small>KING VANDYZ</small><h1>Settings</h1><p>Atur tampilan dan performa aplikasi dari satu tempat.</p></div><Settings/></div>
   <section className="settings-theme glass-panel"><div><small>THEME SYSTEM</small><h2>Ganti tema</h2><p>Pilihan tema tersimpan di perangkat ini dan tidak mengubah database, akun, credits, atau tools.</p></div>
-   <div className="theme-picker">{[['glass','Glassmorphism'],['brutal','Neo Brutalism'],['city','Modern City'],['comic','Comic Style'],['paper','Paper & Handwriting'],['arcade','Retro Arcade']].map(([id,label])=><button type="button" className={theme===id?'active':''} key={id} onClick={()=>applyTheme(id)}><span className={`theme-preview ${id}`}/><b>{label}</b><small>{theme===id?'AKTIF':'PILIH'}</small></button>)}</div>
+   <div className="theme-picker">{[['glass','Glassmorphism'],['brutal','Neo Brutalism'],['city','Modern City'],['comic','Comic Style'],['paper','Paper & Handwriting'],['arcade','Retro Arcade'],['drawing','Drawing Studio']].map(([id,label])=><button type="button" className={theme===id?'active':''} key={id} onClick={()=>applyTheme(id)}><span className={`theme-preview ${id}`}/><b>{label}</b><small>{theme===id?'AKTIF':'PILIH'}</small></button>)}</div>
   </section>
   <section className="settings-grid">
    <button type="button" className={`setting-card ${reduced?'active':''}`} onClick={()=>applyMotion(!reduced)}><b>⚡ Reduce Motion</b><span>{reduced?'Aktif — animasi berat dikurangi.':'Nonaktif — animasi penuh.'}</span><strong>{reduced?'ON':'OFF'}</strong></button>
