@@ -971,3 +971,409 @@ html[data-theme="city"] .admin-page .row-actions select{background:#06131f;color
 html[data-theme="comic"] .admin-page .row-actions select{border:3px solid #17120d;background:#fff;color:#17120d;border-radius:9px;box-shadow:2px 2px 0 #17120d}
 @media(max-width:900px){.admin-nav{max-height:none}.admin-top{padding-top:5px}.cms-row{overflow:hidden}.admin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.admin-page{padding-left:10px;padding-right:10px}.admin-shell{gap:9px}.admin-nav{padding:0 0 5px}.admin-nav button{padding:9px 10px;font-size:.72rem}.cms-panel{padding:15px!important}.cms-row{padding:11px!important}.row-actions{display:flex!important}.row-actions select{width:100%;margin-bottom:2px}.admin-top h1{font-size:2.6rem}.admin-grid{grid-template-columns:1fr 1fr}.admin-stat{min-width:0}.admin-stat strong{overflow:hidden;text-overflow:ellipsis}}
+
+/* =========================================================
+   V10 THEME EXTENSION — PAPER + RETRO ARCADE
+   Lightweight, fully palette-driven, no heavy filters.
+   ========================================================= */
+
+/* Custom palette bridge: Neo Brutalism keeps its exact design grammar,
+   while every color-picker value becomes a real source of truth. */
+html[data-theme="brutal"]{
+  --nb-black:var(--theme-text);
+  --nb-paper:var(--theme-bg);
+  --nb-white:var(--theme-surface);
+  --nb-red:var(--theme-accent);
+  --nb-blue:var(--theme-primary);
+  --nb-purple:var(--theme-secondary);
+  --nb-yellow:var(--theme-highlight);
+  --nb-green:var(--theme-highlight);
+  --nb-border:3px solid var(--theme-border);
+  --nb-shadow-sm:3px 3px 0 0 var(--theme-shadow);
+  --nb-shadow:5px 5px 0 0 var(--theme-shadow);
+  --nb-shadow-lg:8px 8px 0 0 var(--theme-shadow);
+  --bg:var(--theme-bg);
+  --surface:var(--theme-surface);
+  --surface2:var(--theme-surface2);
+  --text:var(--theme-text);
+  --muted:var(--theme-muted);
+  --line:var(--theme-border);
+  --cyan:var(--theme-primary);
+  --purple:var(--theme-secondary);
+  --pink:var(--theme-accent);
+  --yellow:var(--theme-highlight);
+}
+
+/* Prevent old hard-coded brutal colors from defeating the custom palette. */
+html[data-theme="brutal"] .desktop-nav,
+html[data-theme="brutal"] .global-search,
+html[data-theme="brutal"] .status-card,
+html[data-theme="brutal"] .category-card,
+html[data-theme="brutal"] .tool-card-wrap,
+html[data-theme="brutal"] .settings-theme,
+html[data-theme="brutal"] .setting-card,
+html[data-theme="brutal"] .form-panel,
+html[data-theme="brutal"] .code-box,
+html[data-theme="brutal"] .result-panel,
+html[data-theme="brutal"] .loading-panel,
+html[data-theme="brutal"] .error-box,
+html[data-theme="brutal"] .game-panel,
+html[data-theme="brutal"] .instruction-card,
+html[data-theme="brutal"] .price-card,
+html[data-theme="brutal"] .order-card,
+html[data-theme="brutal"] .auth-card,
+html[data-theme="brutal"] .admin-panel,
+html[data-theme="brutal"] .cms-panel,
+html[data-theme="brutal"] .cms-row,
+html[data-theme="brutal"] .cms-editor,
+html[data-theme="brutal"] .admin-stat,
+html[data-theme="brutal"] .wallet-card,
+html[data-theme="brutal"] .profile-hero,
+html[data-theme="brutal"] .theme-choice,
+html[data-theme="brutal"] .info-box{
+  background:var(--theme-surface)!important;
+  color:var(--theme-text)!important;
+  border-color:var(--theme-border)!important;
+  box-shadow:var(--nb-shadow)!important;
+}
+html[data-theme="brutal"] body,
+html[data-theme="brutal"] #root,
+html[data-theme="brutal"] .app-shell{background-color:var(--theme-bg)!important;color:var(--theme-text)!important}
+html[data-theme="brutal"] input,
+html[data-theme="brutal"] textarea,
+html[data-theme="brutal"] select,
+html[data-theme="brutal"] .cms-field input,
+html[data-theme="brutal"] .cms-field textarea{background:var(--theme-surface)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
+html[data-theme="brutal"] .tool-main span,
+html[data-theme="brutal"] .tool-main small,
+html[data-theme="brutal"] .cms-row span,
+html[data-theme="brutal"] .cms-help{color:var(--theme-muted)!important}
+html[data-theme="brutal"] .hero-actions .btn.primary,
+html[data-theme="brutal"] .desktop-nav button.active{background:var(--theme-highlight)!important;color:var(--theme-text)!important}
+html[data-theme="brutal"] .hero-actions .btn.ghost{background:var(--theme-primary)!important;color:var(--theme-surface)!important}
+
+/* PAPER & HANDWRITING — notebook / journal aesthetic. */
+html[data-theme="paper"]{
+  --paper-ink:var(--theme-text);
+  --paper-line:color-mix(in srgb,var(--theme-primary) 18%, transparent);
+  --paper-margin:color-mix(in srgb,var(--theme-accent) 30%, transparent);
+}
+html[data-theme="paper"] body,
+html[data-theme="paper"] #root{
+  background:var(--theme-bg)!important;
+  color:var(--theme-text)!important;
+  font-family:"Segoe Print","Bradley Hand","Comic Sans MS",cursive;
+}
+html[data-theme="paper"] body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55;
+  background-image:linear-gradient(to bottom,transparent 31px,var(--paper-line) 32px),linear-gradient(90deg,transparent 0 58px,var(--paper-margin) 59px,transparent 60px);
+  background-size:100% 32px,100% 100%;
+}
+html[data-theme="paper"] .app-shell{position:relative;z-index:1;background:transparent!important}
+html[data-theme="paper"] .topbar,
+html[data-theme="paper"] .desktop-nav,
+html[data-theme="paper"] .global-search,
+html[data-theme="paper"] .status-card,
+html[data-theme="paper"] .category-card,
+html[data-theme="paper"] .tool-card-wrap,
+html[data-theme="paper"] .settings-theme,
+html[data-theme="paper"] .setting-card,
+html[data-theme="paper"] .form-panel,
+html[data-theme="paper"] .code-box,
+html[data-theme="paper"] .result-panel,
+html[data-theme="paper"] .loading-panel,
+html[data-theme="paper"] .error-box,
+html[data-theme="paper"] .game-panel,
+html[data-theme="paper"] .instruction-card,
+html[data-theme="paper"] .price-card,
+html[data-theme="paper"] .order-card,
+html[data-theme="paper"] .auth-card,
+html[data-theme="paper"] .admin-panel,
+html[data-theme="paper"] .cms-panel,
+html[data-theme="paper"] .cms-row,
+html[data-theme="paper"] .cms-editor,
+html[data-theme="paper"] .admin-stat,
+html[data-theme="paper"] .wallet-card,
+html[data-theme="paper"] .profile-hero,
+html[data-theme="paper"] .theme-choice,
+html[data-theme="paper"] .info-box{
+  background:var(--theme-surface)!important;
+  color:var(--theme-text)!important;
+  border:2px solid var(--theme-border)!important;
+  box-shadow:4px 5px 0 color-mix(in srgb,var(--theme-shadow) 25%,transparent)!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+  border-radius:5px!important;
+}
+html[data-theme="paper"] .page-title h1,
+html[data-theme="paper"] .hero-copy h1,
+html[data-theme="paper"] .section-head h2,
+html[data-theme="paper"] .admin-top h1,
+html[data-theme="paper"] .about-v2-identity h1,
+html[data-theme="paper"] .pricing-intro h1{
+  font-family:"Segoe Print","Bradley Hand","Comic Sans MS",cursive;
+  color:var(--theme-text)!important;letter-spacing:-.03em;
+}
+html[data-theme="paper"] .page-title small,
+html[data-theme="paper"] .section-head small,
+html[data-theme="paper"] .admin-top small,
+html[data-theme="paper"] .pricing-intro small{color:var(--theme-accent)!important}
+html[data-theme="paper"] .btn,
+html[data-theme="paper"] .icon-btn,
+html[data-theme="paper"] .chip{
+  background:var(--theme-surface)!important;color:var(--theme-text)!important;
+  border:2px solid var(--theme-border)!important;border-radius:5px!important;
+  box-shadow:3px 3px 0 color-mix(in srgb,var(--theme-shadow) 35%,transparent)!important;
+}
+html[data-theme="paper"] .btn.primary,
+html[data-theme="paper"] .chip.active{background:var(--theme-accent)!important;color:var(--theme-surface)!important}
+html[data-theme="paper"] input,
+html[data-theme="paper"] textarea,
+html[data-theme="paper"] select,
+html[data-theme="paper"] .cms-field input,
+html[data-theme="paper"] .cms-field textarea{
+  background:color-mix(in srgb,var(--theme-surface) 92%,var(--theme-bg))!important;
+  color:var(--theme-text)!important;border:2px solid var(--theme-border)!important;border-radius:4px!important;
+}
+html[data-theme="paper"] .tool-icon{background:var(--theme-highlight)!important;color:var(--theme-text)!important;border:2px solid var(--theme-border)!important;border-radius:4px!important}
+html[data-theme="paper"] .hero-banner{border:3px solid var(--theme-border)!important;box-shadow:7px 7px 0 color-mix(in srgb,var(--theme-shadow) 35%,transparent)!important;border-radius:5px!important}
+html[data-theme="paper"] .hero-banner:after{background:linear-gradient(90deg,color-mix(in srgb,var(--theme-text) 58%,transparent),transparent 70%)!important}
+html[data-theme="paper"] .hero-copy h1{color:var(--theme-surface)!important;text-shadow:2px 2px 0 var(--theme-shadow)}
+html[data-theme="paper"] .hero-copy p{color:var(--theme-surface)!important}
+html[data-theme="paper"] .category-card{background:var(--theme-surface)!important;color:var(--theme-text)!important}
+html[data-theme="paper"] .category-card:nth-child(2){transform:rotate(-.5deg)}
+html[data-theme="paper"] .category-card:nth-child(3){transform:rotate(.4deg)}
+html[data-theme="paper"] .category-card:nth-child(4){transform:rotate(-.25deg)}
+html[data-theme="paper"] .status-live{color:var(--theme-accent)!important}
+html[data-theme="paper"] .theme-preview.paper{background:repeating-linear-gradient(to bottom,#fffdf4 0 10px,#cbd8e6 11px 12px)!important;border:2px solid #4a3828}
+
+/* RETRO ARCADE — neon cabinet / pixel UI, kept intentionally lightweight. */
+html[data-theme="arcade"] body,
+html[data-theme="arcade"] #root{
+  background:var(--theme-bg)!important;color:var(--theme-text)!important;
+  font-family:"Courier New",monospace;
+}
+html[data-theme="arcade"] body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.16;
+  background-image:linear-gradient(var(--theme-primary) 1px,transparent 1px),linear-gradient(90deg,var(--theme-secondary) 1px,transparent 1px);
+  background-size:36px 36px;
+}
+html[data-theme="arcade"] .app-shell{position:relative;z-index:1;background:transparent!important}
+html[data-theme="arcade"] .topbar,
+html[data-theme="arcade"] .desktop-nav,
+html[data-theme="arcade"] .global-search,
+html[data-theme="arcade"] .status-card,
+html[data-theme="arcade"] .category-card,
+html[data-theme="arcade"] .tool-card-wrap,
+html[data-theme="arcade"] .settings-theme,
+html[data-theme="arcade"] .setting-card,
+html[data-theme="arcade"] .form-panel,
+html[data-theme="arcade"] .code-box,
+html[data-theme="arcade"] .result-panel,
+html[data-theme="arcade"] .loading-panel,
+html[data-theme="arcade"] .error-box,
+html[data-theme="arcade"] .game-panel,
+html[data-theme="arcade"] .instruction-card,
+html[data-theme="arcade"] .price-card,
+html[data-theme="arcade"] .order-card,
+html[data-theme="arcade"] .auth-card,
+html[data-theme="arcade"] .admin-panel,
+html[data-theme="arcade"] .cms-panel,
+html[data-theme="arcade"] .cms-row,
+html[data-theme="arcade"] .cms-editor,
+html[data-theme="arcade"] .admin-stat,
+html[data-theme="arcade"] .wallet-card,
+html[data-theme="arcade"] .profile-hero,
+html[data-theme="arcade"] .theme-choice,
+html[data-theme="arcade"] .info-box{
+  background:var(--theme-surface)!important;color:var(--theme-text)!important;
+  border:2px solid var(--theme-border)!important;border-radius:4px!important;
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--theme-primary) 22%,transparent),4px 4px 0 var(--theme-shadow)!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+}
+html[data-theme="arcade"] .page-title h1,
+html[data-theme="arcade"] .hero-copy h1,
+html[data-theme="arcade"] .section-head h2,
+html[data-theme="arcade"] .admin-top h1,
+html[data-theme="arcade"] .pricing-intro h1{font-family:"Courier New",monospace;color:var(--theme-primary)!important;text-shadow:2px 2px 0 var(--theme-secondary);letter-spacing:-.04em}
+html[data-theme="arcade"] .page-title small,
+html[data-theme="arcade"] .section-head small,
+html[data-theme="arcade"] .admin-top small{color:var(--theme-accent)!important}
+html[data-theme="arcade"] .btn,
+html[data-theme="arcade"] .icon-btn,
+html[data-theme="arcade"] .chip{background:var(--theme-surface)!important;color:var(--theme-text)!important;border:2px solid var(--theme-primary)!important;border-radius:3px!important;box-shadow:3px 3px 0 var(--theme-shadow)!important}
+html[data-theme="arcade"] .btn.primary,
+html[data-theme="arcade"] .chip.active{background:var(--theme-accent)!important;color:var(--theme-surface)!important;border-color:var(--theme-accent)!important}
+html[data-theme="arcade"] .btn:hover,
+html[data-theme="arcade"] .icon-btn:hover,
+html[data-theme="arcade"] .chip:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--theme-shadow)!important}
+html[data-theme="arcade"] input,
+html[data-theme="arcade"] textarea,
+html[data-theme="arcade"] select,
+html[data-theme="arcade"] .cms-field input,
+html[data-theme="arcade"] .cms-field textarea{background:var(--theme-bg)!important;color:var(--theme-text)!important;border:2px solid var(--theme-primary)!important;border-radius:3px!important}
+html[data-theme="arcade"] .tool-icon{background:var(--theme-secondary)!important;color:var(--theme-text)!important;border:2px solid var(--theme-primary)!important;border-radius:3px!important;box-shadow:3px 3px 0 var(--theme-shadow)!important}
+html[data-theme="arcade"] .hero-banner{border:3px solid var(--theme-primary)!important;border-radius:4px!important;box-shadow:6px 6px 0 var(--theme-shadow)!important}
+html[data-theme="arcade"] .hero-banner:after{background:linear-gradient(90deg,color-mix(in srgb,var(--theme-bg) 72%,transparent),transparent 72%)!important}
+html[data-theme="arcade"] .hero-copy h1{color:var(--theme-primary)!important;text-shadow:3px 3px 0 var(--theme-secondary)}
+html[data-theme="arcade"] .hero-copy p{color:var(--theme-text)!important}
+html[data-theme="arcade"] .category-card{background:var(--theme-surface)!important;color:var(--theme-text)!important}
+html[data-theme="arcade"] .category-card:nth-child(2){border-color:var(--theme-accent)!important}
+html[data-theme="arcade"] .category-card:nth-child(3){border-color:var(--theme-secondary)!important}
+html[data-theme="arcade"] .category-card:nth-child(4){border-color:var(--theme-highlight)!important}
+html[data-theme="arcade"] .theme-preview.arcade{background:repeating-linear-gradient(0deg,#09051a 0 4px,#130b2d 4px 8px)!important;border:2px solid #00e5ff}
+
+/* New theme cards + responsive 6-theme layout. */
+.theme-preview.paper{background:#f5edda}
+.theme-preview.arcade{background:#09051a}
+.theme-preview.paper,.theme-preview.arcade{min-height:68px}
+.theme-admin-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+.theme-picker{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+@media(max-width:1100px){.theme-admin-grid,.theme-picker{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media(max-width:650px){.theme-admin-grid,.theme-picker{grid-template-columns:1fr 1fr!important}}
+
+/* =========================================================
+   V11 FINAL GLOBAL COLOR ENGINE
+   Palette changes are token-driven across every existing page.
+   Geometry/skin rules above remain untouched.
+   ========================================================= */
+html[data-theme="glass"],html[data-theme="brutal"],html[data-theme="city"],html[data-theme="comic"],html[data-theme="paper"],html[data-theme="arcade"]{
+  --bg:var(--theme-bg);
+  --surface:var(--theme-surface);
+  --surface2:var(--theme-surface2);
+  --text:var(--theme-text);
+  --muted:var(--theme-muted);
+  --border:var(--theme-border);
+  --line:var(--theme-border);
+  --cyan:var(--theme-primary);
+  --purple:var(--theme-secondary);
+  --pink:var(--theme-accent);
+  --yellow:var(--theme-highlight);
+  --green:var(--theme-highlight);
+  --shadow:var(--theme-shadow);
+}
+html[data-theme] body,html[data-theme] #root{background-color:var(--theme-bg)!important;color:var(--theme-text)!important}
+html[data-theme] .app-shell{background-color:var(--theme-bg)!important;color:var(--theme-text)}
+html[data-theme] .main,html[data-theme] .page,html[data-theme] .home{color:var(--theme-text)}
+html[data-theme] .sidebar,html[data-theme] .mobile-header,html[data-theme] .bottom-nav,html[data-theme] .mobile-drawer,
+html[data-theme] .topbar,html[data-theme] .desktop-nav,html[data-theme] .global-search,
+html[data-theme] .status-card,html[data-theme] .category-card,html[data-theme] .tool-card-wrap,html[data-theme] .tool-card,
+html[data-theme] .form-panel,html[data-theme] .result-panel,html[data-theme] .loading-panel,html[data-theme] .setting-card,
+html[data-theme] .info-box,html[data-theme] .price-card,html[data-theme] .order-card,html[data-theme] .auth-card,
+html[data-theme] .admin-panel,html[data-theme] .admin-stat,html[data-theme] .wallet-card,html[data-theme] .profile-hero,
+html[data-theme] .cms-panel,html[data-theme] .cms-row,html[data-theme] .cms-editor,html[data-theme] .theme-choice,
+html[data-theme] .announcement-board,html[data-theme] .channel-promo-card{
+  color:var(--theme-text);
+  border-color:var(--theme-border);
+}
+html[data-theme="brutal"] .sidebar,html[data-theme="brutal"] .mobile-header,html[data-theme="brutal"] .bottom-nav,html[data-theme="brutal"] .mobile-drawer,
+html[data-theme="brutal"] .topbar,html[data-theme="brutal"] .desktop-nav,html[data-theme="brutal"] .global-search,
+html[data-theme="brutal"] .status-card,html[data-theme="brutal"] .category-card,html[data-theme="brutal"] .tool-card-wrap,
+html[data-theme="brutal"] .tool-card,html[data-theme="brutal"] .form-panel,html[data-theme="brutal"] .result-panel,
+html[data-theme="brutal"] .setting-card,html[data-theme="brutal"] .info-box,html[data-theme="brutal"] .price-card,
+html[data-theme="brutal"] .order-card,html[data-theme="brutal"] .auth-card,html[data-theme="brutal"] .admin-panel,
+html[data-theme="brutal"] .admin-stat,html[data-theme="brutal"] .wallet-card,html[data-theme="brutal"] .profile-hero,
+html[data-theme="brutal"] .cms-panel,html[data-theme="brutal"] .cms-row,html[data-theme="brutal"] .cms-editor,html[data-theme="brutal"] .theme-choice,
+html[data-theme="brutal"] .announcement-board,html[data-theme="brutal"] .channel-promo-card{
+  background:var(--theme-surface)!important;
+  color:var(--theme-text)!important;
+  border-color:var(--theme-border)!important;
+}
+html[data-theme] .global-search,html[data-theme] input,html[data-theme] textarea,html[data-theme] select,
+html[data-theme] .form-panel input,html[data-theme] .form-panel textarea,html[data-theme] .form-panel select,
+html[data-theme] .cms-field input,html[data-theme] .cms-field textarea,html[data-theme] .cms-field select{
+  color:var(--theme-text)!important;
+  border-color:var(--theme-border)!important;
+}
+html[data-theme="brutal"] input,html[data-theme="brutal"] textarea,html[data-theme="brutal"] select,
+html[data-theme="brutal"] .global-search{background:var(--theme-surface)!important;color:var(--theme-text)!important}
+html[data-theme="glass"] input,html[data-theme="glass"] textarea,html[data-theme="glass"] select{background:color-mix(in srgb,var(--theme-bg) 88%,var(--theme-surface))!important}
+html[data-theme="city"] input,html[data-theme="city"] textarea,html[data-theme="city"] select,
+html[data-theme="comic"] input,html[data-theme="comic"] textarea,html[data-theme="comic"] select{background:var(--theme-surface)!important}
+html[data-theme] .category-card span,html[data-theme] .tool-card span,html[data-theme] .tool-card small,
+html[data-theme] .page-title p,html[data-theme] .tool-title p,html[data-theme] .field-help,html[data-theme] .crumb,
+html[data-theme] .cms-help,html[data-theme] .cms-field>span,html[data-theme] .theme-editor-head span,
+html[data-theme] .stats,html[data-theme] .text-btn,html[data-theme] .back-btn{color:var(--theme-muted)!important}
+html[data-theme] .section-head small,html[data-theme] .page-title small,html[data-theme] .admin-top small{color:var(--theme-primary)!important}
+html[data-theme] .cat-icon,html[data-theme] .tool-icon{border-color:var(--theme-primary)!important;color:var(--theme-primary)!important}
+html[data-theme] .btn,html[data-theme] .icon-btn,html[data-theme] .chip{border-color:var(--theme-border);color:var(--theme-text)}
+html[data-theme] .btn.primary,html[data-theme] .chip.active{background:var(--theme-accent)!important;color:var(--theme-surface)!important;border-color:var(--theme-accent)!important}
+html[data-theme] .live-dot{background:var(--theme-highlight)!important;box-shadow:0 0 12px var(--theme-highlight)!important}
+html[data-theme] .method{color:var(--theme-primary)!important;border-color:var(--theme-border)!important}
+html[data-theme] .quote-result{border-left-color:var(--theme-primary)!important;background:color-mix(in srgb,var(--theme-primary) 8%,transparent)!important}
+html[data-theme] .error-box{color:color-mix(in srgb,var(--theme-accent) 72%,var(--theme-text))!important;border-color:var(--theme-accent)!important}
+html[data-theme] .hero-banner{border-color:var(--theme-border)!important}
+html[data-theme="brutal"] .hero-banner{box-shadow:9px 9px 0 var(--theme-shadow)!important}
+html[data-theme="brutal"] .bottom-nav,html[data-theme="brutal"] .mobile-header,html[data-theme="brutal"] .mobile-drawer{box-shadow:6px 6px 0 var(--theme-shadow)!important}
+html[data-theme="brutal"] .auth-card{box-shadow:10px 10px 0 var(--theme-shadow)!important}
+html[data-theme] .banner-admin-preview{background:var(--theme-surface)!important;border-color:var(--theme-border)!important;box-shadow:5px 5px 0 var(--theme-shadow)!important}
+html[data-theme] .theme-choice.active{border-color:var(--theme-primary)!important;box-shadow:4px 4px 0 var(--theme-shadow)!important}
+
+/* Paper: notebook feel stays light and readable. */
+html[data-theme="paper"] body{font-family:'Inter',sans-serif}
+html[data-theme="paper"] .app-shell{background:transparent!important}
+html[data-theme="paper"] body::before{opacity:.65}
+
+/* Arcade: keep glow cheap; no continuous expensive animations. */
+html[data-theme="arcade"] .app-shell{background:transparent!important}
+html[data-theme="arcade"] .channel-promo-card{box-shadow:4px 4px 0 var(--theme-shadow)!important}
+
+/* Channel promotion */
+.channel-promo-wrap{position:relative;margin:0 0 44px}
+.channel-promo-card{display:flex;align-items:center;gap:18px;padding:18px 20px;border:2px solid var(--theme-border);background:var(--theme-surface);box-shadow:4px 4px 0 var(--theme-shadow);position:relative;overflow:hidden}
+.channel-promo-card::before{content:"";position:absolute;inset:0 auto 0 0;width:5px;background:var(--theme-accent)}
+.channel-promo-icon{width:48px;height:48px;display:grid;place-items:center;flex:none;border:2px solid var(--theme-primary);color:var(--theme-primary);background:var(--theme-bg)}
+.channel-promo-copy{min-width:0;flex:1;display:grid;gap:4px}.channel-promo-copy small{font-size:9px;letter-spacing:1.8px;color:var(--theme-primary)}
+.channel-promo-copy b{font-size:16px}.channel-promo-copy p{margin:0;color:var(--theme-muted);font-size:11px;line-height:1.5}
+.channel-promo-actions{display:flex;align-items:center;gap:7px}.channel-promo-close{border:1px solid var(--theme-border);background:transparent;color:var(--theme-muted);width:34px;height:34px;display:grid;place-items:center}
+.channel-promo-floating{position:fixed;right:16px;bottom:92px;z-index:80;border:2px solid var(--theme-primary);background:var(--theme-surface);color:var(--theme-text);box-shadow:4px 4px 0 var(--theme-shadow);padding:10px 13px;display:flex;align-items:center;gap:7px;font-size:10px;font-weight:800}
+.channel-promo-floating:hover{transform:translate(-1px,-1px)}
+@media(max-width:650px){.channel-promo-card{align-items:flex-start;flex-wrap:wrap}.channel-promo-actions{width:100%;justify-content:flex-end}.channel-promo-floating{right:10px;bottom:84px}.channel-promo-card .btn{flex:1}}
+
+/* Final palette coverage for legacy theme-specific components. */
+html[data-theme="glass"] .hero-copy h1{color:var(--theme-text)!important}
+html[data-theme="glass"] .hero-copy h1 em{background:linear-gradient(100deg,var(--theme-primary),var(--theme-secondary))!important;background-clip:text!important;-webkit-background-clip:text!important;color:transparent!important}
+html[data-theme="glass"] .hero-actions .btn.primary{background:linear-gradient(135deg,var(--theme-primary),var(--theme-secondary))!important;color:var(--theme-bg)!important}
+html[data-theme="glass"] .topbar-mark,.auth-mark{background:linear-gradient(135deg,var(--theme-primary),var(--theme-secondary))!important;color:var(--theme-bg)!important}
+html[data-theme="glass"] .desktop-nav button.active{background:linear-gradient(135deg,var(--theme-primary),var(--theme-secondary))!important;color:var(--theme-bg)!important}
+html[data-theme="glass"] .cat-icon,html[data-theme="glass"] .tool-icon{color:var(--theme-primary)!important;border-color:var(--theme-primary)!important}
+
+html[data-theme="city"] .desktop-nav button.active{background:var(--theme-accent)!important;color:var(--theme-bg)!important}
+html[data-theme="city"] .topbar-mark,html[data-theme="city"] .market-help,html[data-theme="city"] .about-v2-contact{background:var(--theme-accent)!important;color:var(--theme-bg)!important}
+html[data-theme="city"] .hero-copy h1 em{color:var(--theme-accent)!important}
+html[data-theme="city"] .hero-copy h1,html[data-theme="city"] .page-title h1,html[data-theme="city"] .section-head h2,html[data-theme="city"] .tool-title h1{color:var(--theme-text)!important}
+html[data-theme="city"] .market-hero-icon{background:var(--theme-accent)!important;color:var(--theme-bg)!important;border-color:var(--theme-accent)!important}
+
+html[data-theme="comic"] .desktop-nav button.active{background:var(--theme-accent)!important;color:var(--theme-text)!important}
+html[data-theme="comic"] .hero-copy h1 em{color:var(--theme-accent)!important;text-shadow:4px 4px 0 var(--theme-shadow)!important}
+html[data-theme="comic"] .eyebrow,html[data-theme="comic"] .hero-tag{background:var(--theme-secondary)!important;color:var(--theme-surface)!important;border-color:var(--theme-border)!important;box-shadow:3px 3px 0 var(--theme-shadow)!important}
+html[data-theme="comic"] .topbar{background:var(--theme-accent)!important;border-color:var(--theme-border)!important}
+html[data-theme="comic"] .topbar-mark{background:var(--theme-secondary)!important;color:var(--theme-surface)!important;border-color:var(--theme-border)!important;box-shadow:5px 5px 0 var(--theme-shadow)!important}
+html[data-theme="comic"] .market-help,html[data-theme="comic"] .about-v2-contact{background:var(--theme-accent)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important;box-shadow:7px 7px 0 var(--theme-shadow)!important}
+html[data-theme="comic"] .market-product:nth-child(2){background:var(--theme-highlight)!important}
+html[data-theme="comic"] .market-product:nth-child(3){background:var(--theme-secondary)!important}
+html[data-theme="comic"] .market-hero-icon{background:var(--theme-primary)!important;color:var(--theme-surface)!important;border-color:var(--theme-border)!important}
+
+/* Shared secondary pages: About / Store / Pricing / Orders inherit the same palette. */
+html[data-theme] .market-product,html[data-theme] .market-comparison,html[data-theme] .market-process,html[data-theme] .market-hero-card,
+html[data-theme] .about-v2-grid .about-modern-panel,html[data-theme] .about-cap-grid article,html[data-theme] .about-v2-project,
+html[data-theme] .about-timeline-grid article,html[data-theme] .about-v2-facts .about-fact-modern,html[data-theme] .market-toolbar,
+html[data-theme] .market-help,html[data-theme] .about-v2-contact,html[data-theme] .about-v2-premium{
+  color:var(--theme-text)!important;border-color:var(--theme-border)!important;
+}
+html[data-theme="brutal"] .market-product,html[data-theme="brutal"] .market-comparison,html[data-theme="brutal"] .market-process,html[data-theme="brutal"] .market-hero-card,
+html[data-theme="brutal"] .about-v2-grid .about-modern-panel,html[data-theme="brutal"] .about-cap-grid article,html[data-theme="brutal"] .about-v2-project,
+html[data-theme="brutal"] .about-timeline-grid article,html[data-theme="brutal"] .about-v2-facts .about-fact-modern,html[data-theme="brutal"] .market-toolbar,
+html[data-theme="brutal"] .about-v2-premium{background:var(--theme-surface)!important;box-shadow:7px 7px 0 var(--theme-shadow)!important}
+html[data-theme] .market-product p,html[data-theme] .market-process p,html[data-theme] .about-v2-project p,html[data-theme] .about-cap-grid article p,html[data-theme] .about-v2-premium p{color:var(--theme-muted)!important}
+html[data-theme] .market-trust span,html[data-theme] .about-v2-facts small{color:var(--theme-muted)!important}
+html[data-theme] .market-hero h1 em{color:var(--theme-accent)!important}
+
+/* Any old card class not covered above still gets palette colors. */
+html[data-theme] .glass-panel,html[data-theme] .tool-card-wrap,html[data-theme] .category-card,html[data-theme] .price-card,html[data-theme] .admin-stat{
+  border-color:var(--theme-border)!important;color:var(--theme-text)!important;
+}
+html[data-theme="brutal"] .glass-panel,html[data-theme="brutal"] .price-card{background:var(--theme-surface)!important;box-shadow:5px 5px 0 var(--theme-shadow)!important}
+
+/* V11 dynamic OpenAPI boolean controls */
+.checkbox-field > span{display:flex;align-items:center;gap:9px;cursor:pointer}
+.checkbox-field input[type="checkbox"]{width:18px;height:18px;accent-color:var(--theme-primary,var(--cyan));margin:0}
