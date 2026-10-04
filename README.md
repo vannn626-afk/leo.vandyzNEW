@@ -38,3 +38,10 @@ Set:
 - existing API environment variables required by `/api/proxy`
 
 Build with `npm run build`.
+
+
+## V13 UI PATCH
+- Removes Random category and its tools, plus Top Up category/tools from UI catalog.
+- Category navigation opens the selected category.
+- Adds game-style launcher UI for game categories.
+- Keeps six themes and strengthens Paper theme surface cleanup.
