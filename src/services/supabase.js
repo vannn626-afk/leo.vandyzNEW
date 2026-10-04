@@ -63,9 +63,31 @@ export async function db(path,{method='GET',token,body,query='',prefer='return=r
   return request(`${restBase()}/${path}${query}`,{method,headers:{...headers(s),Prefer:prefer},body:body===undefined?undefined:JSON.stringify(body)});
 }
 export async function rpc(name,args={},token){return db(`rpc/${name}`,{method:'POST',token,body:args,prefer:'return=representation'})}
+async function authUser(token){
+  if(!token) throw new Error('SESSION_EXPIRED');
+  return request(`${authBase()}/user`,{method:'GET',headers:headers(token)});
+}
+
 export async function profile(token){
-  const rows=await db('profiles',{token,query:'?select=id,username,role,free_credits,purchased_credits,free_reset_at,vip_until,joined_at,last_active,tool_uses,disabled&limit=1'});
-  return rows?.[0]||null;
+  const user=await authUser(token);
+  const uid=String(user?.id||'');
+  if(!uid) throw new Error('SESSION_EXPIRED');
+
+  // IMPORTANT: never use `limit=1` without an identity filter.
+  // RLS may legitimately return more than one profile, and the first row
+  // is not guaranteed to be the currently authenticated user. That caused
+  // the UI to show another account (for example `jokowi`) after logging in
+  // as `kielvan`, which also hid ADMIN access.
+  const rows=await db('profiles',{
+    token,
+    query:`?select=id,username,role,free_credits,purchased_credits,free_reset_at,vip_until,joined_at,last_active,tool_uses,disabled&id=eq.${encodeURIComponent(uid)}&limit=1`
+  });
+  const p=rows?.[0]||null;
+  if(!p || String(p.id)!==uid){
+    saveSession(null);
+    throw new Error('SESSION_PROFILE_MISMATCH');
+  }
+  return p;
 }
 export function friendlyAuthError(e){
   const raw=String(e?.message||'');
