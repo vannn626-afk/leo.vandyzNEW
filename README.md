@@ -52,3 +52,10 @@ Build with `npm run build`.
 - Tool consumption now uses the canonical `consume_tool_v2` RPC only, so VIP access is enforced server-side from `vip_until` and ADMIN remains unlimited.
 - `complete_order()` remains admin-only and grants purchased credits/VIP server-side.
 - Apply `supabase/ADMIN-VIP-SESSION-FIX.sql` once in Supabase SQL Editor. Do NOT rerun `supabase/migration.sql`.
+
+
+## V15.1 CMS + Drawing
+- Admin Tools supports draft Hide/Visible + Maintenance + cost, with **SAVE ALL CHANGES** persisted in `tool_configs`.
+- Sync preserves existing per-tool settings and adds the full current catalog.
+- Added global **Drawing Studio** theme with reload-safe theme bootstrap and full-app styling.
+- Optional Supabase patch: `supabase/V15.1-TOOL-CMS-DRAWING-PATCH.sql`.
