@@ -161,5 +161,14 @@ const CURATED_FIXED=CURATED_TOOLS.map(t=>{
 });
 const EXISTING_ROUTES=new Set(CURATED_TOOLS.map(t=>t.endpoint));
 const OPENAPI_ADDITIONS=(ZYYVOR_GENERATED_TOOLS||[]).filter(t=>!EXISTING_ROUTES.has(t.endpoint));
-export const KNOWN_TOOLS=[...CURATED_FIXED,...OPENAPI_ADDITIONS];
+const HIDDEN_CATEGORIES = new Set(['random','topup','top-up','top_up','top up tools','random tools']);
+const HIDDEN_NAME = /^(random|top ?up|top ?up tools)$/i;
+export const sanitizeCatalog = (items=[]) => (Array.isArray(items)?items:[]).filter(t=>{
+  const category=String(t?.category||'').trim().toLowerCase();
+  const name=String(t?.name||'').trim();
+  if(HIDDEN_CATEGORIES.has(category)) return false;
+  if(HIDDEN_NAME.test(name) && /random|top ?up/i.test(name)) return false;
+  return true;
+});
+export const KNOWN_TOOLS=sanitizeCatalog([...CURATED_FIXED,...OPENAPI_ADDITIONS]);
 export const LOCAL_TOOLS=[];
