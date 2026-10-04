@@ -1,6 +1,7 @@
 const URL = import.meta.env.VITE_SUPABASE_URL || '';
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
-const STORAGE = 'king-vandyz-supabase-session-v2';
+const STORAGE = 'king-vandyz-supabase-session-v3';
+const LEGACY_STORAGE_V2 = 'king-vandyz-supabase-session-v2';
 const LEGACY_STORAGE = 'king-vandyz-supabase-session-v1';
 // Persist auth across reloads/browser restarts.
 // The V15.1 tab-only session caused users to be logged out after closing/reopening
@@ -8,7 +9,16 @@ const LEGACY_STORAGE = 'king-vandyz-supabase-session-v1';
 // session once, without touching favorites/history/theme storage.
 const storageGet=(key)=>{try{return localStorage.getItem(key)}catch{return null}};
 const storageSet=(key,value)=>{try{if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value)}catch{}};
-const storageMigrate=()=>{try{const current=localStorage.getItem(STORAGE);if(current)return current;const tab=sessionStorage.getItem(STORAGE);if(tab){localStorage.setItem(STORAGE,tab);sessionStorage.removeItem(STORAGE);return tab}const legacy=localStorage.getItem(LEGACY_STORAGE);if(legacy){localStorage.setItem(STORAGE,legacy);localStorage.removeItem(LEGACY_STORAGE);return legacy}}catch{}return null};
+const storageMigrate=()=>{try{
+  const current=localStorage.getItem(STORAGE);
+  if(current)return current;
+  const v2=localStorage.getItem(LEGACY_STORAGE_V2);
+  if(v2){localStorage.setItem(STORAGE,v2);return v2}
+  const tab=sessionStorage.getItem(LEGACY_STORAGE_V2)||sessionStorage.getItem(STORAGE);
+  if(tab){localStorage.setItem(STORAGE,tab);sessionStorage.removeItem(LEGACY_STORAGE_V2);sessionStorage.removeItem(STORAGE);return tab}
+  const legacy=localStorage.getItem(LEGACY_STORAGE);
+  if(legacy){localStorage.setItem(STORAGE,legacy);localStorage.removeItem(LEGACY_STORAGE);return legacy}
+}catch{}return null};
 const AUTH_COOLDOWN = 'king-vandyz-auth-cooldown-until';
 function authCooldownRemaining(){try{return Math.max(0,Number(localStorage.getItem(AUTH_COOLDOWN)||0)-Date.now())}catch{return 0}}
 function markAuthRateLimit(){try{localStorage.setItem(AUTH_COOLDOWN,String(Date.now()+20000))}catch{}}
@@ -23,7 +33,14 @@ function headers(token) {
   return { apikey: KEY, Authorization: `Bearer ${token || KEY}`, 'Content-Type': 'application/json', Accept: 'application/json' };
 }
 function readSession(){try{return JSON.parse(storageMigrate()||'null')}catch{return null}}
-function saveSession(s){storageSet(STORAGE,s?JSON.stringify(s):null)}
+function saveSession(s){
+  if(!s){storageSet(STORAGE,null);return}
+  const value=JSON.stringify(s);
+  storageSet(STORAGE,value);
+  // Keep a copy in the legacy v2 key during the transition so a deployment
+  // running V15.2/V15.3 can still recover the same session.
+  try{localStorage.setItem(LEGACY_STORAGE_V2,value)}catch{}
+}
 
 async function request(url, options={}) {
   const r = await fetch(url, options);
@@ -55,10 +72,21 @@ export async function signIn(username,password){
 export async function signOut(){saveSession(null)}
 export function getSession(){return readSession()}
 export async function restoreSession(){
-  const s=readSession(); if(!s?.access_token)return null;
-  if(s.expires_at && Date.now()/1000 < s.expires_at-45)return s;
-  if(!s.refresh_token)return null;
-  try{const next=await request(`${authBase()}/token?grant_type=refresh_token`,{method:'POST',headers:headers(),body:JSON.stringify({refresh_token:s.refresh_token})});saveSession(next);return next}catch{saveSession(null);return null}
+  const s=readSession();
+  if(!s?.access_token)return null;
+  const exp=Number(s.expires_at||0);
+  if(exp && Date.now()/1000 < exp-60)return s;
+  if(!s.refresh_token)return s;
+  try{
+    const next=await request(`${authBase()}/token?grant_type=refresh_token`,{method:'POST',headers:headers(),body:JSON.stringify({refresh_token:s.refresh_token})});
+    if(next?.access_token)saveSession(next);
+    return next?.access_token?next:s;
+  }catch(e){
+    // Only discard the session when Supabase explicitly rejects the refresh
+    // token. Temporary network errors must not force a valid user to log in again.
+    if(e?.status===400||e?.status===401)saveSession(null);
+    return s;
+  }
 }
 export async function db(path,{method='GET',token,body,query='',prefer='return=representation'}={}){
   const s=token||readSession()?.access_token;
