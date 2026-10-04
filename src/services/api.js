@@ -1,4 +1,29 @@
 import { KNOWN_TOOLS } from '../data/catalog.js';
+import { getSession } from './supabase';
+
+const SUPABASE_URL=String(import.meta.env.VITE_SUPABASE_URL||'').replace(/\/$/,'');
+const SUPABASE_ANON_KEY=String(import.meta.env.VITE_SUPABASE_ANON_KEY||'');
+const STORAGE_BUCKET='site-assets';
+
+function storagePublicUrl(path){
+  const encoded=String(path).split('/').map(encodeURIComponent).join('/');
+  return `${SUPABASE_URL}/storage/v1/object/public/${STORAGE_BUCKET}/${encoded}`;
+}
+
+export async function uploadToStorage(file,folder='uploads'){
+  if(!file||typeof file.arrayBuffer!=='function')throw new Error('File tidak valid.');
+  if(!SUPABASE_URL||!SUPABASE_ANON_KEY)throw new Error('Supabase belum dikonfigurasi.');
+  const session=getSession();
+  if(!session?.access_token)throw new Error('Session expired. Login ulang sebagai Admin.');
+  const safe=String(file.name||'file').toLowerCase().replace(/[^a-z0-9._-]+/g,'-').replace(/^-+|-+$/g,'')||'file';
+  const id=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const path=`${folder}/${id}-${safe}`;
+  const endpoint=`${SUPABASE_URL}/storage/v1/object/${STORAGE_BUCKET}/${path.split('/').map(encodeURIComponent).join('/')}`;
+  const r=await fetch(endpoint,{method:'POST',headers:{apikey:SUPABASE_ANON_KEY,Authorization:`Bearer ${session.access_token}`,'Content-Type':file.type||'application/octet-stream','x-upsert':'false'},body:file});
+  const data=await r.json().catch(()=>({}));
+  if(!r.ok){const msg=data?.message||data?.error||data?.statusCode||`Upload gagal (${r.status}).`;throw new Error(String(msg));}
+  return storagePublicUrl(path);
+}
 
 export async function getCatalog(){
   const local={ok:true,source:'local-catalog',tools:KNOWN_TOOLS,count:KNOWN_TOOLS.length};
@@ -18,20 +43,23 @@ export async function getCatalog(){
 
 export async function uploadVideo(file){
   if(!(typeof File!=='undefined' && file instanceof File))throw new Error('Video file tidak valid.');
-  const form=new FormData();
-  form.append('file',file,file.name||'video.mp4');
-  const r=await fetch('/api/upload-video',{method:'POST',body:form,headers:{Accept:'application/json'}});
-  const data=await r.json().catch(()=>({}));
-  if(!r.ok||!data?.url)throw new Error(data?.error||'Gagal membuat URL video sementara.');
-  return data.url;
+  if(!/^video\//i.test(file.type||''))throw new Error('File yang dipilih bukan video.');
+  return uploadToStorage(file,'videos');
 }
+
 
 export async function callTool(tool,params={}){
   if(tool.local)throw new Error('Local tools are disabled.');
   const defs=(tool.params||[]).map(p=>typeof p==='string'?{name:p,in:tool.method==='GET'?'query':'body'}:p);
   if(tool.autoUpload && params.url && !defs.some(p=>p.name==='url')) defs.push({name:'url',in:tool.method==='GET'?'query':'body'});
+  const hidden=(tool.hiddenParams||[]).map(p=>typeof p==='string'?{name:p,in:'query'}:p);
   const qs=new URLSearchParams(); const body={};
-  for(const p of defs){const v=params[p.name];if(v===undefined||v===null||v==='')continue;if(p.in==='query'||p.in==='path')qs.set(p.name,String(v));else body[p.name]=v;}
+  for(const p of [...hidden,...defs]){
+    let v=params[p.name];
+    if((v===undefined||v===null||v==='') && /^(session|session_id|conversation_id)$/i.test(p.name)) v=globalThis.crypto?.randomUUID?.()||`session-${Date.now()}`;
+    if(v===undefined||v===null||v==='')continue;
+    if(p.in==='query'||p.in==='path')qs.set(p.name,String(v));else body[p.name]=v;
+  }
   const path=tool.endpoint+(qs.toString()?`?${qs}`:'');
   const init={method:tool.method||'GET',headers:{Accept:'application/json, text/plain, */*'}};
   const hasFile=Object.values(params).some(v=>typeof File!=='undefined' && v instanceof File);
