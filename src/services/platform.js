@@ -1,6 +1,6 @@
 import {db,rpc,getSession,profile} from './supabase';
 
-export async function getMyProfile(){const s=getSession(); if(!s?.access_token)return null; try{await rpc('sync_access_state',{},s.access_token)}catch{} return profile(s.access_token)}
+export async function getMyProfile(){const s=getSession(); if(!s?.access_token)return null; try{await rpc('sync_access_state',{},s.access_token);return await profile(s.access_token)}catch(e){if(String(e?.message||'').includes('SESSION_PROFILE_MISMATCH'))throw new Error('Session tidak cocok dengan profil akun. Silakan login ulang.');return null}}
 export async function touchPresence(){try{await rpc('touch_presence',{},getSession()?.access_token)}catch{}}
 export async function consumeTool(toolId,cost=10){
   const token=getSession()?.access_token; if(!token)throw new Error('Session expired.');
