@@ -1,3 +1,4 @@
+import { ZYYVOR_GENERATED_TOOLS } from './zyvor.generated.js';
 // KING VANDYZ — Zyvor catalog. Field definitions are tailored per tool so the UI is usable.
 const p=(name,required=false,extra={})=>({name,required,in:'query',type:'string',...extra});
 const img=(name,required=false)=>p(name,required,{format:'uri'});
@@ -148,5 +149,17 @@ const downloader=['9xbuddy','allinone','allinonev2','allinonev3','spotify','tera
 const ai=[{id:'ai-chat',name:'VANNDY AI',description:'AI chat endpoint dengan percakapan berkelanjutan.',category:'ai',endpoint:'/api/ai/aichatting',method:'POST',params:[p('text',true,{in:'body',description:'Pesan yang ingin dikirim. Riwayat percakapan dikelola oleh aplikasi.'})],required:['text'],responseType:'json',free:true,ui:'ai'}];
 const developer=[{id:'qr',name:'QR Generator',description:'Generate a QR code.',category:'developer',endpoint:'/api/developer/qr',method:'GET',params:[p('text',true)],required:['text'],responseType:'image',free:true,ui:'qr'}];
 const search=[{id:'pinterest-search',name:'Pinterest Search',description:'Search Pinterest.',category:'search',endpoint:'/api/search/pinterest',method:'GET',params:[p('query',true)],required:['query'],responseType:'json',free:true,ui:'search'},{id:'spotify-search',name:'Spotify Search',description:'Search Spotify.',category:'search',endpoint:'/api/search/spotify',method:'GET',params:[p('query',true)],required:['query'],responseType:'json',free:true,ui:'search'}];
-export const KNOWN_TOOLS=[...maker,...fun,...anime,...hdvideo,...stalker,...developerExtras,...bypass,...downloader,...ai,...developer,...search];
+const CURATED_TOOLS=[...maker,...fun,...anime,...hdvideo,...stalker,...developerExtras,...bypass,...downloader,...ai,...developer,...search];
+const OPENAPI_BY_ROUTE=new Map((ZYYVOR_GENERATED_TOOLS||[]).map(t=>[t.endpoint,t]));
+const CURATED_FIXED=CURATED_TOOLS.map(t=>{
+  const z=OPENAPI_BY_ROUTE.get(t.endpoint);
+  if(!z) return t;
+  // Existing KING VANDYZ UI is the baseline. Only API contract fields are corrected.
+  // Special file-upload tools keep their friendly file UI while the request builder sends the URL.
+  if(t.autoUpload) return {...t,method:z.method,hiddenParams:z.hiddenParams||[]};
+  return {...t,method:z.method,params:z.params,hiddenParams:z.hiddenParams||[],required:z.required};
+});
+const EXISTING_ROUTES=new Set(CURATED_TOOLS.map(t=>t.endpoint));
+const OPENAPI_ADDITIONS=(ZYYVOR_GENERATED_TOOLS||[]).filter(t=>!EXISTING_ROUTES.has(t.endpoint));
+export const KNOWN_TOOLS=[...CURATED_FIXED,...OPENAPI_ADDITIONS];
 export const LOCAL_TOOLS=[];
