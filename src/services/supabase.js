@@ -63,31 +63,24 @@ export async function db(path,{method='GET',token,body,query='',prefer='return=r
   return request(`${restBase()}/${path}${query}`,{method,headers:{...headers(s),Prefer:prefer},body:body===undefined?undefined:JSON.stringify(body)});
 }
 export async function rpc(name,args={},token){return db(`rpc/${name}`,{method:'POST',token,body:args,prefer:'return=representation'})}
-async function authUser(token){
-  if(!token) throw new Error('SESSION_EXPIRED');
-  return request(`${authBase()}/user`,{method:'GET',headers:headers(token)});
+function tokenSubject(token){
+  try{
+    const part=String(token||'').split('.')[1];
+    if(!part)return null;
+    const b64=part.replace(/-/g,'+').replace(/_/g,'/').padEnd(Math.ceil(part.length/4)*4,'=');
+    const payload=JSON.parse(decodeURIComponent(Array.from(atob(b64),c=>`%${c.charCodeAt(0).toString(16).padStart(2,'0')}`).join('')));
+    return typeof payload?.sub==='string'&&payload.sub?payload.sub:null;
+  }catch{return null}
 }
-
 export async function profile(token){
-  const user=await authUser(token);
-  const uid=String(user?.id||'');
-  if(!uid) throw new Error('SESSION_EXPIRED');
-
-  // IMPORTANT: never use `limit=1` without an identity filter.
-  // RLS may legitimately return more than one profile, and the first row
-  // is not guaranteed to be the currently authenticated user. That caused
-  // the UI to show another account (for example `jokowi`) after logging in
-  // as `kielvan`, which also hid ADMIN access.
-  const rows=await db('profiles',{
-    token,
-    query:`?select=id,username,role,free_credits,purchased_credits,free_reset_at,vip_until,joined_at,last_active,tool_uses,disabled&id=eq.${encodeURIComponent(uid)}&limit=1`
-  });
+  const uid=tokenSubject(token||readSession()?.access_token);
+  if(!uid)return null;
+  // NEVER select an arbitrary profile. The profile MUST match the authenticated
+  // Supabase user id carried by the access token. This prevents one account
+  // (for example jokowi) from being displayed for another account (kielvan).
+  const rows=await db('profiles',{token,query:`?select=id,username,role,free_credits,purchased_credits,free_reset_at,vip_until,joined_at,last_active,tool_uses,disabled&id=eq.${encodeURIComponent(uid)}&limit=1`});
   const p=rows?.[0]||null;
-  if(!p || String(p.id)!==uid){
-    saveSession(null);
-    throw new Error('SESSION_PROFILE_MISMATCH');
-  }
-  return p;
+  return p&&p.id===uid?p:null;
 }
 export function friendlyAuthError(e){
   const raw=String(e?.message||'');
