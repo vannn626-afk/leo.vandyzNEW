@@ -52,9 +52,3 @@ Build with `npm run build`.
 - Tool consumption now uses the canonical `consume_tool_v2` RPC only, so VIP access is enforced server-side from `vip_until` and ADMIN remains unlimited.
 - `complete_order()` remains admin-only and grants purchased credits/VIP server-side.
 - Apply `supabase/ADMIN-VIP-SESSION-FIX.sql` once in Supabase SQL Editor. Do NOT rerun `supabase/migration.sql`.
-
-## V14.1 — AUTH IDENTITY LOCK FIX
-- Profile loading is now bound to the authenticated Supabase `auth.users.id`.
-- Removed the unsafe `profiles?select=*&limit=1` identity lookup that could display another user's profile (such as `jokowi`) after logging in as `kielvan`.
-- The client now calls Supabase Auth `/user`, filters `profiles` with `id=eq.<auth user id>`, and rejects/clears the session if the profile identity does not match.
-- ADMIN/VIP UI state is therefore derived from the authenticated user's own profile, not the first profile returned by the database.
