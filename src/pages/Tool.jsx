@@ -60,6 +60,22 @@ function PlayableQuiz({result}){
 }
 
 
+function GameLauncher({tool,params,values,setValues,onPlay,loading}){
+  const enumParams=params.filter(p=>Array.isArray(p.enum)&&p.enum.length);
+  const textParams=params.filter(p=>!p.enum&&p.type!=='boolean');
+  const boolParams=params.filter(p=>p.type==='boolean');
+  return <div className="game-ui-shell">
+    <div className="game-ui-header"><span>ARCADE MODE</span><b>{tool.name}</b><small>{tool.description}</small></div>
+    <div className="game-ui-screen">
+      <div className="game-ui-prompt">READY PLAYER</div>
+      {enumParams.map(p=><div className="game-ui-choice" key={p.name}><label>{p.label||p.name}</label><div>{p.enum.map(v=><button className={String(values[p.name])===String(v)?'game-choice active':'game-choice'} key={String(v)} onClick={()=>setValues(x=>({...x,[p.name]:v}))}>{String(v)}</button>)}</div></div>)}
+      {textParams.map(p=><label className="game-ui-input" key={p.name}><span>{p.label||p.name}{p.required?' *':''}</span><input value={values[p.name]??''} onChange={e=>setValues(x=>({...x,[p.name]:e.target.value}))} placeholder={p.example||`Enter ${p.label||p.name}`} /></label>)}
+      {boolParams.map(p=><label className="game-ui-toggle" key={p.name}><input type="checkbox" checked={Boolean(values[p.name])} onChange={e=>setValues(x=>({...x,[p.name]:e.target.checked}))}/><span>{p.label||p.name}</span></label>)}
+      <button className="game-start-btn" disabled={loading} onClick={onPlay}>{loading?'LOADING...':'▶ START GAME'}</button>
+    </div>
+  </div>;
+}
+
 function InstructionCard({guide,tool}){
   if(!guide)return null;
   return <section className={`instruction-card ${tool.ui==='web2apk'?'instruction-app':''}`}>
@@ -77,6 +93,7 @@ function InstructionCard({guide,tool}){
 export default function Tool({tool,profile,setPage,onUsed,favorite,toggleFavorite}){
   const params=(tool.params||[]).filter(p=>!/^session(?:_id)?$/i.test(typeof p==='string'?p:p?.name)).map(p=>typeof p==='string'?{name:p,required:(tool.required||[]).includes(p),type:'string'}:p);
   const isAI=tool.category==='ai'&&tool.endpoint==='/api/ai/aichatting';
+  const isGame=['game','games'].includes(String(tool.category||'').toLowerCase())||['game','games','playable-game'].includes(String(tool.ui||'').toLowerCase());
   const [values,setValues]=React.useState(Object.fromEntries(params.map(p=>[p.name,p.default!==undefined?p.default:(p.name==='emoji'?'👍':p.name==='model'?(tool.modelOptions?.[0]||'gpt-5.6-luna'):p.type==='boolean'?false:'')] )));
   const [loading,setLoading]=React.useState(false),[result,setResult]=React.useState(null),[error,setError]=React.useState('');
   const chatKey='vanndy-ai-chat-v4';
@@ -138,5 +155,5 @@ export default function Tool({tool,profile,setPage,onUsed,favorite,toggleFavorit
       onUsed?.(tool,{ok:false,duration:Math.round(performance.now()-started),message:msg});
     }finally{setLoading(false)}
   };
-  return <div className="page tool-page"><button className="back-btn" onClick={()=>setPage('tools')}><ArrowLeft size={16}/> Back to Tools</button><div className="tool-title"><div><small>{tool.category.toUpperCase()}</small><h1>{tool.name}</h1><p>{tool.description}</p></div><div className="tool-title-actions"><button className={favorite?'icon-btn favorite active':'icon-btn favorite'} onClick={toggleFavorite}><Heart size={17} fill={favorite?'currentColor':'none'}/></button><span className="method">{tool.method}</span></div></div><InstructionCard guide={tool.guide} tool={tool}/><div className="workspace"><div className="form-panel">{params.length?params.map(p=><Field key={p.name} p={p} tool={tool} value={values[p.name]} onChange={v=>setValues(x=>({...x,[p.name]:v}))}/>):<div className="no-input">No input required — ready to run.</div>}<button className="btn primary full" disabled={loading} onClick={submit}>{loading?<><Loader2 className="spin" size={17}/> THINKING...</>:<><Send size={16}/> {tool.ui==='web2apk'?'CREATE APK':tool.ui==='anime'?'RUN ANIME':tool.ui==='whatsapp'?'SEND REACTION':isAI?'SEND MESSAGE':'RUN TOOL'}</>}</button></div><CodeExamples tool={tool} values={values}/>{error&&<div className="error-box">{error}<button onClick={submit}>Retry</button></div>}{loading&&<div className="loading-panel"><div className="loader-ring"/><b>{isAI?'KING VANDYZ IS TYPING…':'WAITING FOR ZYYVOR'}</b><span>{isAI?'Generating a real chat reply…':'Retry-safe request path active…'}</span></div>}{isAI&&messages.length>0&&<AIChatResult messages={messages} onClear={clearChat} loading={loading} error={error}/>} {!isAI&&result&&<PlayableQuiz result={result}/>} {!isAI&&result&&<ResponseView result={result}/>}</div></div>;
+  return <div className="page tool-page"><button className="back-btn" onClick={()=>setPage('tools')}><ArrowLeft size={16}/> Back to Tools</button><div className="tool-title"><div><small>{tool.category.toUpperCase()}</small><h1>{tool.name}</h1><p>{tool.description}</p></div><div className="tool-title-actions"><button className={favorite?'icon-btn favorite active':'icon-btn favorite'} onClick={toggleFavorite}><Heart size={17} fill={favorite?'currentColor':'none'}/></button><span className="method">{tool.method}</span></div></div><InstructionCard guide={tool.guide} tool={tool}/><div className="workspace">{isGame?<GameLauncher tool={tool} params={params} values={values} setValues={setValues} onPlay={submit} loading={loading}/>:<div className="form-panel">{params.length?params.map(p=><Field key={p.name} p={p} tool={tool} value={values[p.name]} onChange={v=>setValues(x=>({...x,[p.name]:v}))}/>):<div className="no-input">No input required — ready to run.</div>}<button className="btn primary full" disabled={loading} onClick={submit}>{loading?<><Loader2 className="spin" size={17}/> THINKING...</>:<><Send size={16}/> {tool.ui==='web2apk'?'CREATE APK':tool.ui==='anime'?'RUN ANIME':tool.ui==='whatsapp'?'SEND REACTION':isAI?'SEND MESSAGE':'RUN TOOL'}</>}</button></div>}<CodeExamples tool={tool} values={values}/>{error&&<div className="error-box">{error}<button onClick={submit}>Retry</button></div>}{loading&&<div className="loading-panel"><div className="loader-ring"/><b>{isAI?'KING VANDYZ IS TYPING…':'WAITING FOR ZYYVOR'}</b><span>{isAI?'Generating a real chat reply…':'Retry-safe request path active…'}</span></div>}{isAI&&messages.length>0&&<AIChatResult messages={messages} onClear={clearChat} loading={loading} error={error}/>} {!isAI&&result&&<PlayableQuiz result={result}/>} {!isAI&&result&&<ResponseView result={result}/>}</div></div>;
 }
