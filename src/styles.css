@@ -1397,3 +1397,88 @@ html[data-theme="paper"] .game-ui-input input,html[data-theme="paper"] .game-cho
 html[data-theme="paper"] .topbar *,html[data-theme="paper"] .desktop-nav *,html[data-theme="paper"] .bottom-nav *,html[data-theme="paper"] .mobile-header *,html[data-theme="paper"] .mobile-drawer *{color:inherit}
 html[data-theme="paper"] .topbar,html[data-theme="paper"] .desktop-nav,html[data-theme="paper"] .bottom-nav,html[data-theme="paper"] .mobile-header,html[data-theme="paper"] .mobile-drawer{background:var(--theme-surface)!important;color:var(--theme-text)!important}
 html[data-theme="paper"] .tool-card,html[data-theme="paper"] .category-card,html[data-theme="paper"] .status-card,html[data-theme="paper"] .global-search{background:var(--theme-surface)!important;color:var(--theme-text)!important}
+/* KING VANDYZ — premium tool CMS + loading polish */
+.tools-admin-head{align-items:center;gap:14px;flex-wrap:wrap}.tools-admin-head>div:first-child{display:grid;gap:4px}.tools-admin-head>div:first-child span{font-size:.68rem;color:var(--muted)}.tool-admin-actions{display:flex!important;align-items:center;gap:7px;flex-wrap:wrap}.tool-admin-search{height:38px;min-width:min(300px,42vw);border:1px solid var(--line);background:rgba(255,255,255,.035);color:var(--text);border-radius:10px;padding:0 11px;outline:0;font-size:.72rem}.tool-admin-search:focus{border-color:var(--cyan);box-shadow:0 0 24px rgba(99,231,255,.08)}.tool-cms{grid-template-columns:minmax(180px,1.4fr) 90px 90px 105px 90px auto!important}.tool-cms>div:first-child{min-width:0}.tool-cms>div:first-child b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tool-cms.tool-hidden{opacity:.58}.tool-hide-btn{border:1px solid rgba(255,99,130,.24);background:rgba(255,99,130,.06);color:#ff9aad;border-radius:9px;padding:7px 9px;font-size:.63rem;font-weight:800;white-space:nowrap}.tool-hide-btn:hover{background:rgba(255,99,130,.12);transform:translateY(-1px)}.tool-hide-btn.is-hidden{border-color:rgba(112,239,170,.24);background:rgba(112,239,170,.06);color:#8ff0b5}
+/* More cinematic initial loader */
+.boot-screen{background:radial-gradient(circle at 50% 42%,rgba(0,229,255,.09),transparent 25%),radial-gradient(circle at 50% 55%,rgba(157,123,255,.08),transparent 34%),#03050d}.boot-screen:before{content:"";position:absolute;width:280px;height:280px;border:1px solid rgba(0,229,255,.12);border-radius:50%;box-shadow:0 0 90px rgba(0,229,255,.08),inset 0 0 70px rgba(157,123,255,.05);animation:loaderOrbit 4s linear infinite}.boot-screen:after{content:"";position:absolute;width:190px;height:190px;border:1px dashed rgba(255,43,214,.16);border-radius:50%;animation:loaderOrbit 2.8s linear infinite reverse}.boot-logo{position:relative;z-index:2;text-shadow:0 0 35px rgba(0,229,255,.16);animation:loaderPulse 1.7s ease-in-out infinite}.boot-logo:after{content:"";display:block;width:86px;height:2px;margin:14px auto 0;background:linear-gradient(90deg,transparent,var(--cyan),var(--purple),transparent);animation:loaderSweep 1.2s ease-in-out infinite}.boot-line{bottom:24%;width:260px;height:3px;background:rgba(255,255,255,.06);border-radius:99px;box-shadow:0 0 25px rgba(0,229,255,.08)}.boot-line i{width:35%;border-radius:99px;box-shadow:0 0 16px var(--cyan)}.boot-status{bottom:19%;animation:statusBlink 1.3s ease-in-out infinite}.loader-ring{position:relative;width:42px;height:42px;border:3px solid rgba(255,255,255,.07);border-top-color:var(--cyan);border-right-color:var(--purple);border-bottom-color:var(--pink);box-shadow:0 0 24px rgba(0,229,255,.12);animation:spin 1s linear infinite}.loader-ring:after{content:"";position:absolute;inset:7px;border:1px solid rgba(255,255,255,.13);border-left-color:var(--cyan);border-radius:50%;animation:spin 1.6s linear infinite reverse}.loading-panel{position:relative;overflow:hidden}.loading-panel:before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 25%,rgba(255,255,255,.045) 48%,transparent 70%);transform:translateX(-100%);animation:loadingSweep 1.7s ease-in-out infinite;pointer-events:none}@keyframes loaderOrbit{to{transform:rotate(360deg)}}@keyframes loaderPulse{0%,100%{transform:scale(.98);opacity:.82}50%{transform:scale(1.025);opacity:1}}@keyframes loaderSweep{0%,100%{transform:scaleX(.55);opacity:.45}50%{transform:scaleX(1);opacity:1}}@keyframes statusBlink{0%,100%{opacity:.45}50%{opacity:1}}@keyframes loadingSweep{to{transform:translateX(100%)}}
+@media(max-width:900px){.tool-cms{grid-template-columns:1fr 1fr!important}.tool-admin-actions{width:100%}.tool-admin-search{min-width:0;flex:1}.tool-hide-btn{width:100%}}
+
+
+/* =========================================================
+   V15.1 — DRAWING STUDIO THEME
+   Full-app visual grammar: paper canvas + ink outlines + marker accents.
+   ========================================================= */
+html[data-theme="drawing"]{
+  --drawing-paper:#f8f4ea;--drawing-surface:#fffdf7;--drawing-ink:#2b241e;--drawing-muted:#766b5f;
+  --drawing-blue:#3157d5;--drawing-purple:#9b59b6;--drawing-coral:#ef6b4f;--drawing-yellow:#f4c95d;
+  --drawing-line:#3b3027;--drawing-shadow:#3b3027;
+  --bg:var(--theme-bg,var(--drawing-paper));--surface:var(--theme-surface,var(--drawing-surface));--surface2:var(--theme-surface2,#f2ead8);
+  --text:var(--theme-text,var(--drawing-ink));--muted:var(--theme-muted,var(--drawing-muted));--border:var(--theme-border,var(--drawing-line));
+  --cyan:var(--theme-primary,var(--drawing-blue));--pink:var(--theme-secondary,var(--drawing-purple));--green:var(--theme-highlight,var(--drawing-yellow));
+}
+html[data-theme="drawing"] body,html[data-theme="drawing"] #root{background:var(--theme-bg,var(--drawing-paper))!important;color:var(--theme-text,var(--drawing-ink))!important;font-family:"Comic Sans MS","Segoe Print","Bradley Hand",cursive}
+html[data-theme="drawing"] body{background-image:radial-gradient(circle at 10% 8%,rgba(49,87,213,.08),transparent 22%),linear-gradient(transparent 31px,rgba(49,87,213,.10) 32px)!important;background-size:auto,100% 32px!important}
+html[data-theme="drawing"] .app-shell{background:transparent!important}
+html[data-theme="drawing"] .sidebar,html[data-theme="drawing"] .mobile-header,html[data-theme="drawing"] .bottom-nav,html[data-theme="drawing"] .mobile-drawer,html[data-theme="drawing"] .topbar,html[data-theme="drawing"] .desktop-nav,html[data-theme="drawing"] .global-search,
+html[data-theme="drawing"] .status-card,html[data-theme="drawing"] .category-card,html[data-theme="drawing"] .tool-card-wrap,html[data-theme="drawing"] .tool-card,
+html[data-theme="drawing"] .settings-theme,html[data-theme="drawing"] .setting-card,html[data-theme="drawing"] .form-panel,html[data-theme="drawing"] .result-panel,html[data-theme="drawing"] .loading-panel,
+html[data-theme="drawing"] .error-box,html[data-theme="drawing"] .code-box,html[data-theme="drawing"] .game-panel,html[data-theme="drawing"] .instruction-card,
+html[data-theme="drawing"] .price-card,html[data-theme="drawing"] .order-card,html[data-theme="drawing"] .auth-card,html[data-theme="drawing"] .wallet-card,html[data-theme="drawing"] .profile-hero,
+html[data-theme="drawing"] .cms-panel,html[data-theme="drawing"] .cms-row,html[data-theme="drawing"] .cms-editor,html[data-theme="drawing"] .admin-stat,html[data-theme="drawing"] .theme-choice,
+html[data-theme="drawing"] .info-box,html[data-theme="drawing"] .maintenance-card,html[data-theme="drawing"] .announcement-list article,html[data-theme="drawing"] .market-product,
+html[data-theme="drawing"] .market-comparison,html[data-theme="drawing"] .market-process,html[data-theme="drawing"] .market-hero-card,html[data-theme="drawing"] .about-modern-panel,
+html[data-theme="drawing"] .about-cap-grid article,html[data-theme="drawing"] .about-v2-project,html[data-theme="drawing"] .about-timeline-grid article,html[data-theme="drawing"] .about-fact-modern,
+html[data-theme="drawing"] .about-v2-contact,html[data-theme="drawing"] .about-v2-premium,html[data-theme="drawing"] .store-card,html[data-theme="drawing"] .store-process,html[data-theme="drawing"] .order-modal{
+  background:var(--theme-surface,var(--drawing-surface))!important;color:var(--theme-text,var(--drawing-ink))!important;border:2px solid var(--theme-border,var(--drawing-line))!important;
+  box-shadow:5px 5px 0 color-mix(in srgb,var(--theme-shadow,var(--drawing-shadow)) 22%,transparent)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border-radius:10px!important;
+}
+html[data-theme="drawing"] .sidebar{background:var(--theme-surface)!important;border-right:2px solid var(--theme-border)!important}
+html[data-theme="drawing"] .brand,html[data-theme="drawing"] .page-title h1,html[data-theme="drawing"] .hero-copy h1,html[data-theme="drawing"] .section-head h2,html[data-theme="drawing"] .tool-title h1,
+html[data-theme="drawing"] .admin-top h1,html[data-theme="drawing"] .pricing-intro h1,html[data-theme="drawing"] .store-hero h1,html[data-theme="drawing"] .about-v2-identity h1{
+  font-family:"Comic Sans MS","Segoe Print","Bradley Hand",cursive!important;color:var(--theme-text)!important;letter-spacing:-.035em
+}
+html[data-theme="drawing"] .hero-copy h1 em,html[data-theme="drawing"] .market-hero h1 em{color:var(--theme-primary)!important;background:none!important;text-shadow:2px 2px 0 var(--theme-highlight)}
+html[data-theme="drawing"] .page-title small,html[data-theme="drawing"] .section-head small,html[data-theme="drawing"] .admin-top small,html[data-theme="drawing"] .pricing-intro small,
+html[data-theme="drawing"] .method,html[data-theme="drawing"] .status-card small{color:var(--theme-primary)!important}
+html[data-theme="drawing"] .btn,html[data-theme="drawing"] .icon-btn,html[data-theme="drawing"] .chip,html[data-theme="drawing"] .card-fav{background:var(--theme-surface)!important;color:var(--theme-text)!important;border:2px solid var(--theme-border)!important;border-radius:7px!important;box-shadow:3px 3px 0 color-mix(in srgb,var(--theme-shadow) 25%,transparent)!important}
+html[data-theme="drawing"] .btn.primary,html[data-theme="drawing"] .chip.active{background:var(--theme-accent)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
+html[data-theme="drawing"] .btn:hover,html[data-theme="drawing"] .icon-btn:hover,html[data-theme="drawing"] .chip:hover{transform:translate(-1px,-1px)}
+html[data-theme="drawing"] input,html[data-theme="drawing"] textarea,html[data-theme="drawing"] select,html[data-theme="drawing"] .cms-field input,html[data-theme="drawing"] .cms-field textarea,
+html[data-theme="drawing"] .form-panel input,html[data-theme="drawing"] .form-panel textarea,html[data-theme="drawing"] .form-panel select{
+  background:color-mix(in srgb,var(--theme-surface) 92%,var(--theme-bg))!important;color:var(--theme-text)!important;border:2px solid var(--theme-border)!important;border-radius:6px!important;box-shadow:inset 0 1px rgba(255,255,255,.45)!important
+}
+html[data-theme="drawing"] .tool-icon,html[data-theme="drawing"] .cat-icon{background:var(--theme-highlight)!important;color:var(--theme-text)!important;border:2px solid var(--theme-border)!important;border-radius:7px!important;transform:rotate(-2deg)}
+html[data-theme="drawing"] .category-card:nth-child(2),html[data-theme="drawing"] .tool-card-wrap:nth-child(3){transform:rotate(.35deg)}
+html[data-theme="drawing"] .category-card:nth-child(3),html[data-theme="drawing"] .tool-card-wrap:nth-child(5){transform:rotate(-.35deg)}
+html[data-theme="drawing"] .category-card:nth-child(4),html[data-theme="drawing"] .tool-card-wrap:nth-child(7){transform:rotate(.2deg)}
+html[data-theme="drawing"] .hero-banner{border:3px solid var(--theme-border)!important;box-shadow:8px 8px 0 color-mix(in srgb,var(--theme-shadow) 28%,transparent)!important;border-radius:12px!important}
+html[data-theme="drawing"] .hero-banner:after{background:linear-gradient(90deg,color-mix(in srgb,var(--theme-text) 62%,transparent),transparent 72%)!important}
+html[data-theme="drawing"] .hero-copy p{color:var(--theme-surface)!important;text-shadow:1px 1px 0 var(--theme-shadow)}
+html[data-theme="drawing"] .hero-tag{background:var(--theme-highlight)!important;color:var(--theme-text)!important;border:2px solid var(--theme-border)!important;border-radius:5px!important}
+html[data-theme="drawing"] .tool-name-row em,html[data-theme="drawing"] .tool-maintenance-badge{border:2px solid var(--theme-border)!important;color:var(--theme-text)!important;background:var(--theme-highlight)!important;border-radius:4px!important}
+html[data-theme="drawing"] .tool-maintenance-badge{background:var(--theme-accent)!important}
+html[data-theme="drawing"] .tool-card:hover,html[data-theme="drawing"] .category-card:hover{border-color:var(--theme-primary)!important;box-shadow:7px 7px 0 color-mix(in srgb,var(--theme-shadow) 28%,transparent)!important}
+html[data-theme="drawing"] .game-ui-shell,html[data-theme="drawing"] .game-ui-screen{background:var(--theme-surface)!important;border-color:var(--theme-border)!important}
+html[data-theme="drawing"] .game-ui-header{background:var(--theme-surface2)!important;border-color:var(--theme-border)!important}
+html[data-theme="drawing"] .game-choice{background:var(--theme-bg)!important;color:var(--theme-text)!important;border:2px solid var(--theme-border)!important}
+html[data-theme="drawing"] .game-choice.active,html[data-theme="drawing"] .game-start-btn{background:var(--theme-accent)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
+html[data-theme="drawing"] .maintenance-screen{background:transparent!important}
+html[data-theme="drawing"] .maintenance-card svg{color:var(--theme-accent)!important}
+html[data-theme="drawing"] .modal-backdrop{background:rgba(43,36,30,.58)!important;backdrop-filter:blur(4px)!important}
+html[data-theme="drawing"] .store-hero:before{background:radial-gradient(circle,color-mix(in srgb,var(--theme-primary) 22%,transparent),transparent 68%)!important}
+html[data-theme="drawing"] .market-hero-icon{background:var(--theme-primary)!important;color:var(--theme-surface)!important;border-color:var(--theme-border)!important}
+html[data-theme="drawing"] .theme-preview.drawing{background:repeating-linear-gradient(135deg,#fffdf7 0 8px,#f4c95d 8px 10px,#3157d5 10px 12px)!important;border:2px solid #3b3027!important}
+html[data-theme="drawing"] .loading-panel:before{background:linear-gradient(105deg,transparent 25%,rgba(49,87,213,.12) 48%,transparent 70%)!important}
+html[data-theme="drawing"] .loader-ring{border-color:color-mix(in srgb,var(--theme-border) 22%,transparent);border-top-color:var(--theme-primary);border-right-color:var(--theme-accent);border-bottom-color:var(--theme-secondary);box-shadow:0 0 20px color-mix(in srgb,var(--theme-primary) 18%,transparent)}
+html[data-theme="drawing"] .boot-screen{background:var(--theme-bg)!important}
+html[data-theme="drawing"] .boot-logo{color:var(--theme-text)!important;text-shadow:2px 2px 0 var(--theme-highlight)!important}
+html[data-theme="drawing"] .boot-logo em{color:var(--theme-primary)!important;text-shadow:none!important}
+html[data-theme="drawing"] .admin-nav button.active,html[data-theme="drawing"] .desktop-nav button.active{background:var(--theme-highlight)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
+html[data-theme="drawing"] .admin-nav button:hover,html[data-theme="drawing"] .desktop-nav button:hover{color:var(--theme-text)!important}
+html[data-theme="drawing"] .status-live,.html[data-theme="drawing"] .live-dot{color:var(--theme-accent)!important}
+html[data-theme="drawing"] .live-dot{background:var(--theme-accent)!important;box-shadow:0 0 10px color-mix(in srgb,var(--theme-accent) 55%,transparent)!important}
+html[data-theme="drawing"] .raw-toggle,html[data-theme="drawing"] .result-actions button,html[data-theme="drawing"] .url-row button,html[data-theme="drawing"] .url-open{border-color:var(--theme-border)!important;color:var(--theme-text)!important;background:var(--theme-surface)!important}
+html[data-theme="drawing"] .quote-result{background:color-mix(in srgb,var(--theme-primary) 7%,var(--theme-surface))!important;border-left:3px solid var(--theme-primary)!important;color:var(--theme-text)!important}
+html[data-theme="drawing"] .media-preview{background:var(--theme-bg)!important;border:2px solid var(--theme-border)!important}
+html[data-theme="drawing"] .theme-choice.active{background:var(--theme-highlight)!important;color:var(--theme-text)!important}
+@media(prefers-reduced-motion:reduce){html[data-theme="drawing"] .category-card:nth-child(2),html[data-theme="drawing"] .category-card:nth-child(3),html[data-theme="drawing"] .category-card:nth-child(4){transform:none}}
