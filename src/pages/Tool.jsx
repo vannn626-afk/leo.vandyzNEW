@@ -12,6 +12,7 @@ function Field({p,value,onChange,tool}){
   const label=tool?.autoUpload&&p.type==='file'?'Pilih Video':pretty(p.name);
   const aiModels=(tool?.category==='ai'&&p.name?.toLowerCase()==='model'&&tool?.modelOptions?.length)?tool.modelOptions:null;
   if(aiModels?.length)return <label>{label}{p.required&&<i>*</i>}<select value={value||''} onChange={e=>onChange(e.target.value)}><option value="">Select model</option>{aiModels.map(x=><option key={x} value={x}>{x}</option>)}</select><small className="field-help">Models exposed by Zyyvor.</small></label>;
+  if(p.type==='boolean')return <label className="checkbox-field"><span><input type="checkbox" checked={Boolean(value)} onChange={e=>onChange(e.target.checked)}/> {label}{p.required&&<i>*</i>}</span>{p.description&&<small className="field-help">{p.description}</small>}</label>;
   if(p.enum?.length)return <label>{label}{p.required&&<i>*</i>}<select value={value||''} onChange={e=>onChange(e.target.value)}><option value="">Select {label}</option>{p.enum.map(x=><option key={x} value={x}>{x}</option>)}</select>{p.description&&<small className="field-help">{p.description}</small>}</label>;
   if(isLong(p))return <label>{label}{p.required&&<i>*</i>}<textarea value={value||''} onChange={e=>onChange(e.target.value)} placeholder={p.description||`Enter ${label.toLowerCase()}`}/>{p.description&&<small className="field-help">{p.description}</small>}</label>;
   const n=String(p.name||'').toLowerCase();
@@ -74,9 +75,9 @@ function InstructionCard({guide,tool}){
 }
 
 export default function Tool({tool,profile,setPage,onUsed,favorite,toggleFavorite}){
-  const params=(tool.params||[]).map(p=>typeof p==='string'?{name:p,required:(tool.required||[]).includes(p),type:'string'}:p);
+  const params=(tool.params||[]).filter(p=>!/^session(?:_id)?$/i.test(typeof p==='string'?p:p?.name)).map(p=>typeof p==='string'?{name:p,required:(tool.required||[]).includes(p),type:'string'}:p);
   const isAI=tool.category==='ai'&&tool.endpoint==='/api/ai/aichatting';
-  const [values,setValues]=React.useState(Object.fromEntries(params.map(p=>[p.name,p.name==='emoji'?'👍':p.name==='model'?(tool.modelOptions?.[0]||'gpt-5.6-luna'):''])));
+  const [values,setValues]=React.useState(Object.fromEntries(params.map(p=>[p.name,p.default!==undefined?p.default:(p.name==='emoji'?'👍':p.name==='model'?(tool.modelOptions?.[0]||'gpt-5.6-luna'):p.type==='boolean'?false:'')] )));
   const [loading,setLoading]=React.useState(false),[result,setResult]=React.useState(null),[error,setError]=React.useState('');
   const chatKey='vanndy-ai-chat-v4';
   const sanitizeMessages=(raw)=>{if(!Array.isArray(raw))return [];return raw.filter(m=>m&&typeof m==='object'&&(m.role==='user'||m.role==='assistant')&&m.text!=null).map(m=>{let text='';try{text=typeof m.text==='string'?m.text:JSON.stringify(m.text)}catch{text=String(m.text??'')}return {role:m.role,text:String(text||'').slice(0,8000)}}).filter(m=>m.text.trim()).slice(-20)};
