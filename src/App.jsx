@@ -4,7 +4,7 @@ import {KNOWN_TOOLS, sanitizeCatalog} from './data/catalog.js';import {restoreSe
 export default function App(){const [page,setPage]=React.useState('home'),[tools,setTools]=React.useState(KNOWN_TOOLS),[selected,setSelected]=React.useState(null),[selectedCategory,setSelectedCategory]=React.useState('all'),[search,setSearch]=React.useState(''),[status,setStatus]=React.useState(false),[loadingCatalog,setLoadingCatalog]=React.useState(true),[boot,setBoot]=React.useState(true),[transition,setTransition]=React.useState(false),[profile,setProfile]=React.useState(null),[favorites,setFavorites]=React.useState(()=>{try{return JSON.parse(localStorage.getItem('king-vandyz-favorites')||'[]')}catch{return []}}),[siteSettings,setSiteSettings]=React.useState(null),[homeConfig,setHomeConfig]=React.useState(null),[announcements,setAnnouncements]=React.useState([]),[publicStats,setPublicStats]=React.useState({});const {toast,show}=useToast();
  const refreshProfile=React.useCallback(async()=>{const p=await getMyProfile();setProfile(p);return p},[]);
  React.useEffect(()=>{
-  const t=setTimeout(()=>setBoot(false),80);
+  const t=setTimeout(()=>setBoot(false),520);
   // Render the local catalog immediately. Network/Supabase work must never block the first paint.
   setTools(sanitizeCatalog(KNOWN_TOOLS));
   setLoadingCatalog(false);
@@ -37,7 +37,7 @@ export default function App(){const [page,setPage]=React.useState('home'),[tools
     const notices=aa.status==='fulfilled'&&Array.isArray(aa.value)?aa.value:[];
     const configs=tc.status==='fulfilled'&&Array.isArray(tc.value)?tc.value:[];
     const base=sanitizeCatalog(Array.isArray(d.tools)&&d.tools.length?d.tools:KNOWN_TOOLS);
-    const merged=base.map(t=>{const c=configs.find(x=>x.tool_id===t.id);return c?{...t,...c,name:c.display_name||t.name,description:c.description||t.description,category:c.category||t.category}:t});
+    const merged=base.map(t=>{const c=configs.find(x=>x.tool_id===t.id);return c?{...t,...c,name:c.display_name||t.name,description:c.description||t.description,category:c.category||t.category}:t}).filter(t=>t.enabled!==false);
     setTools(sanitizeCatalog(merged));
     setSiteSettings(site[0]||null);
     setHomeConfig(home[0]||null);
@@ -53,7 +53,8 @@ React.useEffect(()=>{
   city:{bg:'#08111b',surface:'#0d1925',surface2:'#122333',text:'#eff7ff',muted:'#8ba0b6',border:'#2a4257',primary:'#7bd9ff',secondary:'#78a8ff',accent:'#36e1c1',highlight:'#ffcc66',shadow:'#02060b'},
   comic:{bg:'#fff6dc',surface:'#FFFFFF',surface2:'#FFFFFF',text:'#17120d',muted:'#6e5e4c',border:'#17120d',primary:'#1769ff',secondary:'#ff3d8d',accent:'#ffe05c',highlight:'#58d68d',shadow:'#17120d'},
   paper:{bg:'#f5edda',surface:'#fffdf4',surface2:'#f1e7cc',text:'#30261d',muted:'#776957',border:'#4a3828',primary:'#6b4f35',secondary:'#9a7652',accent:'#c65d3a',highlight:'#e6c85c',shadow:'#4a3828'},
-  arcade:{bg:'#09051a',surface:'#130b2d',surface2:'#1d1040',text:'#f8f4ff',muted:'#b8a9d9',border:'#6e4cff',primary:'#00e5ff',secondary:'#a66cff',accent:'#ff3cac',highlight:'#ffe45e',shadow:'#05020d'}
+  arcade:{bg:'#09051a',surface:'#130b2d',surface2:'#1d1040',text:'#f8f4ff',muted:'#b8a9d9',border:'#6e4cff',primary:'#00e5ff',secondary:'#a66cff',accent:'#ff3cac',highlight:'#ffe45e',shadow:'#05020d'},
+  drawing:{bg:'#f8f4ea',surface:'#fffdf7',surface2:'#f2ead8',text:'#2b241e',muted:'#766b5f',border:'#3b3027',primary:'#3157d5',secondary:'#9b59b6',accent:'#ef6b4f',highlight:'#f4c95d',shadow:'#3b3027'}
  };
  const applyTheme=()=>{
   let saved=null;try{saved=localStorage.getItem('king-vandyz-theme-v2')}catch{}
