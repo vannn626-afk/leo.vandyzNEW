@@ -26,8 +26,8 @@ export function AboutPage(){return <div className="page about-page about-v2">
   <section className="about-modern-hero about-v2-hero">
     <div className="about-hero-top"><span className="about-chip"><Sparkles size={13}/> CREATOR / BUILDER PROFILE</span><span className="about-code">KV / ABOUT / 2026</span></div>
     <div className="about-v2-identity">
-      <div className="about-avatar-xl"><span>LF</span></div>
-      <div className="about-identity-copy"><small>LEONARDO FANDIZKIEL</small><h1>Curiosity into<br/><em>digital projects.</em></h1><p>Independent student builder behind the VANDYZ identity. Exploring web apps, API experiences, interface systems, and practical digital products through continuous building and iteration.</p></div>
+      <div className="about-avatar-xl"><span>MS</span></div>
+      <div className="about-identity-copy"><small>MOHAMMAD SOFANDI</small><h1>Curiosity into<br/><em>digital projects.</em></h1><p>Independent student builder behind the VANDYZ identity. Exploring web apps, API experiences, interface systems, and practical digital products through continuous building and iteration.</p></div>
     </div>
     <div className="about-metrics"><div><b>VANDYZ</b><span>Project identity</span></div><div><b>API HUB</b><span>Main direction</span></div><div><b>2026</b><span>Active build era</span></div></div>
   </section>
@@ -80,5 +80,5 @@ export function AboutPage(){return <div className="page about-page about-v2">
 
   <section className="premium-card about-v2-premium"><div className="premium-icon"><ShieldCheck/></div><div className="premium-copy"><small>VANDYZ PREMIUM</small><h2>AM Premium · Rp2.000</h2><p>Untuk pembelian AM Premium, hubungi VANDYZ melalui WhatsApp.</p></div><a className="btn premium-btn" href="https://wa.me/6283818597706?text=Halo%20VANDYZ%2C%20saya%20mau%20beli%20AM%20Premium%20Rp2.000." target="_blank" rel="noreferrer"><MessageCircle size={17}/> BUY / ASK</a></section>
   <section className="about-v2-contact"><div><div className="about-label"><UserRound size={14}/> PROFILE</div><h2>Siapa itu Vandyz?</h2><p>Kenali Vandyz, kreator muda di balik project KING VANDYZ, lewat halaman profil resminya.</p></div><a className="btn premium-btn" href="https://about-van.vercel.app/" target="_blank" rel="noopener">LIHAT PROFIL VANDYZ <ArrowUpRight size={16}/></a></section>
-  <section className="about-ending"><span>LEONARDO FANDIZKIEL · VANDYZ</span><p>Still learning. Still building. Still evolving.</p></section>
+  <section className="about-ending"><span>MOHAMMAD SOFANDI · VANDYZ</span><p>Still learning. Still building. Still evolving.</p></section>
 </div>}
