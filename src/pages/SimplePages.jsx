@@ -79,5 +79,6 @@ export function AboutPage(){return <div className="page about-page about-v2">
   </section>
 
   <section className="premium-card about-v2-premium"><div className="premium-icon"><ShieldCheck/></div><div className="premium-copy"><small>VANDYZ PREMIUM</small><h2>AM Premium · Rp2.000</h2><p>Untuk pembelian AM Premium, hubungi VANDYZ melalui WhatsApp.</p></div><a className="btn premium-btn" href="https://wa.me/6283818597706?text=Halo%20VANDYZ%2C%20saya%20mau%20beli%20AM%20Premium%20Rp2.000." target="_blank" rel="noreferrer"><MessageCircle size={17}/> BUY / ASK</a></section>
+  <section className="about-v2-contact"><div><div className="about-label"><UserRound size={14}/> PROFILE</div><h2>Siapa itu Vandyz?</h2><p>Kenali Vandyz, kreator muda di balik project KING VANDYZ, lewat halaman profil resminya.</p></div><a className="btn premium-btn" href="https://about-van.vercel.app/" target="_blank" rel="noopener">LIHAT PROFIL VANDYZ <ArrowUpRight size={16}/></a></section>
   <section className="about-ending"><span>LEONARDO FANDIZKIEL · VANDYZ</span><p>Still learning. Still building. Still evolving.</p></section>
 </div>}
