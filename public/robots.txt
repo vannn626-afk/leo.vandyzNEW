@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leovandyz.vercel.app/sitemap.xml
